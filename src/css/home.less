@@ -1,0 +1,90 @@
+.home{
+  #map,#dataPanel{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  #map{
+    flex: 1 0 60%;
+    min-height: 457px;
+  }
+  #dataPanel{
+    flex: 1 1 40%;
+    display: flex;
+    flex-direction: column;
+  	border-top: 1px solid @grey;
+  }
+  >.tabs{
+    position: absolute;
+    top:30px;
+    left: 50%;
+    z-index: 1;
+    transform: translateX(-50%);
+  }
+  .title{
+    position: absolute;
+    top:30px;
+    left: @marginHomeLeft;
+    z-index: 1;
+    span{
+      font-size: 36px;
+      font-weight: 700;
+      color:@white;
+      display: inline-block;
+      background-color: @orange;
+      padding: 0 14px 0 8px;
+      &:not(first-child){
+        margin-top: 1px;
+      }
+    }
+    .date{
+      font-size: 20px;
+      font-weight: 700;
+      color:@orange;
+      margin-top: 5px;
+    }
+  }
+  .summary{
+    position: absolute;
+    top: 216px;
+    left: @marginHomeLeft;
+    z-index: 1;
+  }
+  .note{
+    position: absolute;
+    bottom: @marginHomeBottom;
+    left: @marginHomeLeft;
+    z-index: 1;
+    font-size: 12px;
+    font-style: italic;
+    color: @grey_3;
+    &:last-of-type{
+      left:initial;
+      right: 72px;
+      background-color: @white_2;
+      padding: 3px 9px;
+    }
+  }
+  .info{
+    position: absolute;
+    bottom: @marginHomeBottom;
+    right: @marginHomeRight;
+    z-index: 1;
+    width: 24px;
+    height: 24px;
+    background-image: url('/img/UGD-camp-icon-info.svg');
+    background-size: cover;
+  }
+  .splitControl{
+    position: absolute;
+    top: -16px;
+    left: 50%;
+    transform: translateX(-50%) rotate(180deg);
+    z-index: 1;
+    width: 32px;
+    height: 32px;
+    background-image: url('/img/toggle-timeline.svg');
+    background-size: cover;
+    cursor: pointer;
+  }
+}

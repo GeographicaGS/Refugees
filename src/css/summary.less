@@ -1,0 +1,47 @@
+.summary{
+  width: 339px;
+  background-color: rgba(255, 255, 255, .7);
+  .head,.data{
+    padding-left: 16px;
+  }
+  .head{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 80px;
+  	border-bottom: 1px solid @grey;
+    h3{
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 21px;
+    }
+    h4{
+      font-size: 24px;
+      font-weight: 300;
+      line-height: 28px;
+    }
+  }
+  .data{
+    margin: 12px 0;
+    .row{
+      display: flex;
+      +.row{
+        margin-top: 16px;
+      }
+      .cell{
+        flex: 1 1 100%;
+        h5{
+          font-size: 14px;
+          font-weight: 300;
+          line-height: 16px;
+          color: @grey_2;
+        }
+        span{
+          font-size: 18px;
+          font-weight: 300;
+          line-height: 21px;
+        }
+      }
+    }
+  }
+}

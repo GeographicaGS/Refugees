@@ -1,0 +1,90 @@
+@import "./reset.less";
+
+@black:#52595E;
+@white:#fff;
+@white_2:#FAFAFB;
+@orange:#F7563C;
+@grey:#C3CDD4;
+@grey_2:#71777B;
+@grey_3:#71777B;
+@grey_4:#E4E8EB;
+
+@marginHomeLeft:30px;
+@marginHomeRight:30px;
+@marginHomeBottom:10px;
+
+body{
+  font-family: 'Roboto', sans-serif;
+  font-smoothing: antialiased;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
+  color:@black;
+  main{
+    height: ~ "calc(100vh)";
+    display: flex;
+  	flex-direction: column;
+  	>div{
+      flex: 1 1 100%;
+	  	display: flex;
+	  	flex-direction: column;
+      .tabs{
+        display: flex;
+        border-radius: 4px;
+        >div{
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: 32px;
+          font-size: 12px;
+          text-transform: uppercase;
+          color:@grey_2;
+          text-transform: uppercase;
+          padding: 0 16px;
+          background-color: @grey;
+          &.active{
+            color:@white;
+            background-color: @orange;
+          }
+          &:first-child{
+            border-radius: 4px 0 0 4px;
+          }
+          &:last-child{
+            border-radius: 0 4px 4px 0;
+          }
+        }
+      }
+      .leaflet-top.leaflet-right{
+        top: 50%;
+        transform: translateY(-50%);
+        .leaflet-control-zoom{
+          box-shadow: none;
+          border: 1px solid @grey;
+          border-radius: 2px;
+          .leaflet-control-zoom-in,.leaflet-control-zoom-out{
+            width: 32px;
+            height: 32px;
+            background-color: @white_2;
+            border-color: @grey;
+            border-radius: 0;
+            font-size: 0;
+            &:hover{
+              background-color: @white_2;
+            }
+          }
+          .leaflet-control-zoom-in{
+            background-image: url('/img/UGD-zoom-mas.svg');
+          }
+          .leaflet-control-zoom-out{
+            background-image: url('/img/UGD-zoom-menos.svg');
+          }
+        }
+      }
+  	}
+  }
+}
+
+@import "./home.less";
+@import "./summary.less";
+@import "./dataPanel.less";
