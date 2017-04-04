@@ -18,7 +18,7 @@ module.exports = class SummaryView extends Backbone.View {
 
   render() {
     let sql = new cartodb.SQL({ user: Config.cartoUser });
-    sql.execute('SELECT collection_point, sum(count) as total FROM map2_daily_arrivals group by collection_point order by total DESC limit 4')
+    sql.execute('SELECT country, sum(refugees) as total FROM map1_refugees_district group by country order by total DESC limit 4')
     .done((data)=>{
       this.$el.html(template({rows:data.rows, Utils:Utils}));
     })

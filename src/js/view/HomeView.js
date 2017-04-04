@@ -37,10 +37,18 @@ module.exports = class HomeView extends Backbone.View {
   render() {
     this.$el.html(template());
     let sql = new cartodb.SQL({ user: Config.cartoUser });
-    sql.execute('SELECT min(date_yyyy_mm_dd) as mindate, max(date_yyyy_mm_dd) as maxdate  FROM map2_daily_arrivals')
+    sql.execute('SELECT distinct(month_year) FROM map1_host_and_refugees where month_year is not null and month_year!=\'\'')
     .done((data)=>{
-      this.$('.title .date').text(`${Utils.formatDateShort(new Date(data.rows[0].mindate))} >> ${Utils.formatDateShort(new Date(data.rows[0].maxdate))}`);
-      this.$('.dataPanel .header h4 span').text(`${Utils.formatDateNotYear(new Date(data.rows[0].mindate))} - ${Utils.formatDateNotYear(new Date(data.rows[0].maxdate))}`);
+      let minDate, maxDate;
+      for(var d of data.rows){
+        var date = new Date('2000-' + d.month_year);
+        if(!minDate || date < minDate)
+          minDate = date
+        if(!maxDate || date > maxDate)
+          maxDate = date
+      }
+      this.$('.title .date').text(`${Utils.formatDateNotYear(minDate)} >> ${Utils.formatDateNotYear(maxDate)}`);
+      // this.$('.dataPanel .header h4 span').text(`${Utils.formatDateNotYear(new Date(data.rows[0].mindate))} - ${Utils.formatDateNotYear(new Date(data.rows[0].maxdate))}`);
     })
     .error((errors)=>{
       console.log("errors:" + errors);

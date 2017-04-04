@@ -1,0 +1,59 @@
+.mapPopup{
+	background-color: @black;
+  border-radius: 4px;
+  box-shadow: 0 1px 8px 0 rgba(0,0,0,0.15);
+  .headerPopup,.contentPopup{
+    padding: 0 16px;
+  }
+  .headerPopup{
+    height: 38px;
+    background-color: rgba(255,255,255,0.1);
+    display: flex;
+    align-items: center;
+    position: relative;
+    .percentage{
+      position: absolute;
+      top: 0;
+      left: 0;
+    	background-color: @orange;
+      height: 100%;
+      z-index: 1;
+      border-top-left-radius: 4px;
+    }
+    h3{
+      text-transform: uppercase;
+      font-size: 18px;
+      color:@white;
+      font-weight: 400;
+      z-index: 2;
+    }
+  }
+  .contentPopup{
+    padding-bottom: 10px;
+    .rows{
+      display: flex;
+      >div{
+        flex: 1 1 50%;
+      }
+    }
+    >div{
+      &:first-child{
+        span{
+          font-size: 24px;
+        }
+      }
+      padding-top: 10px;
+    }
+    span{
+      color:@white;
+      font-size: 18px;
+      font-weight: 300;
+    }
+    h4{
+      color: @grey;
+      text-transform: uppercase;
+      font-size: 14px;
+      font-weight: 300;
+    }
+  }
+}
