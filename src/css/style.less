@@ -63,6 +63,7 @@ body{
           box-shadow: none;
           border: 1px solid @grey;
           border-radius: 2px;
+          margin-right: ~ "calc(@{marginHomeRight} - 5px)";
           .leaflet-control-zoom-in,.leaflet-control-zoom-out{
             width: 32px;
             height: 32px;
@@ -86,8 +87,9 @@ body{
         color:inherit;
       }
       .leaflet-control-attribution{
-        bottom: 14px;
-        right: 230px;
+        bottom: 10px;
+        right: 179px;
+        padding-right: 0;
       }
       .hide{
         display: none;

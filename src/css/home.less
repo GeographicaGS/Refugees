@@ -86,18 +86,23 @@
     left: @marginHomeLeft;
     z-index: 1;
     font-size: 12px;
-    font-style: italic;
+    display: flex;
+    align-items: center;
     color: @grey_3;
+    &:first-of-type{
+      font-style: italic;
+    }
     &:last-of-type{
       left:initial;
-      right: 72px;
-      background-color: @white_2;
-      padding: 3px 9px;
+      right: @marginHomeRight;
+      background-color: rgba(255,255,255,.7);
+      padding-right: 5px;
+      height: 16px;
     }
   }
   .info{
     position: absolute;
-    bottom: @marginHomeBottom;
+    top: 30px;
     right: @marginHomeRight;
     z-index: 1;
     width: 24px;
