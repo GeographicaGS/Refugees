@@ -18,7 +18,7 @@ module.exports = class TableDataView extends Backbone.View {
   render() {
 
     let sql = new cartodb.SQL({ user: Config.cartoUser });
-    sql.execute('SELECT settlment_name, source, date_yyyy_mm_dd as date,count FROM map2_daily_arrivals order by date, settlment_name, collection_point')
+    sql.execute('SELECT district, country, refugees FROM map1_refugees_district order by district, country')
     .done((data)=>{
       this.$el.html(template({rows:data.rows, Utils:Utils}));
     })
