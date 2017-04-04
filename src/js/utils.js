@@ -24,7 +24,7 @@ module.exports = {
     return `${date.toLocaleString(locale, {day: '2-digit'})} ${date.toLocaleString(locale, {month: 'short' })} ${date.toLocaleString(locale, {year: 'numeric'})}`
   },
 
-  formatDateNotYear(date) {
+  formatDateShortNotYear(date) {
     let locale = 'en';
     return `${date.toLocaleString(locale, {month: 'short' })} ${date.toLocaleString(locale, {year: 'numeric'})}`
   },
