@@ -13,6 +13,7 @@
       font-weight: 700;
       span{
         font-weight: 300;
+        text-transform: uppercase;
       }
     }
   }
@@ -20,6 +21,11 @@
     flex: 1 1 100%;
     display: flex;
     svg{
+      &.active{
+        .guide,.popup,.popupText{
+          opacity: 1;
+        }
+      }
       text{
         font-size: 12px;
         fill:@black;
@@ -28,10 +34,71 @@
       .mainPath{
         stroke:@orange;
       }
+      circle{
+        fill:transparent;
+        &.active{
+          fill: @orange;
+        }
+      }
       .grid{
         transform: translateX(20px);
         line{
           stroke: @grey_4;
+        }
+      }
+      .guide,.popup,.popupText{
+        opacity: 0;
+      }
+      .guide{
+        stroke: @black;
+      }
+      .popup{
+        fill: @black;
+      }
+      .popupText{
+        fill:@white;
+  		  font-size: 12px;
+        font-weight: 300;
+        .first{
+          font-weight: 700;
+        }
+      }
+    }
+    .tableData{
+      flex: 1 1 100%;
+      margin-top: 25px;
+      overflow-y: auto;
+      table{
+        width: 100%;
+        font-size: 14px;
+        tr{
+          height: 30px;
+          td{
+            vertical-align: middle;
+            padding-left: 5px;
+            &:last-child{
+              border: none;
+            }
+          }
+        }
+        thead{
+          tr{
+            background-color: @grey_4;
+            border-bottom: 1px solid @grey_5;
+            border-top: 1px solid @grey_5;
+            td{
+              text-transform: uppercase;
+              border-right: 1px solid @grey_5;
+            }
+          }
+        }
+        tbody{
+          tr{
+            border-bottom: 1px solid @grey;
+            td{
+              border-right: 1px solid @grey;
+            }
+          }
         }
       }
     }

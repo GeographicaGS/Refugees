@@ -1,8 +1,25 @@
 .home{
+
+  &.fullMap{
+    #map{
+      flex: 1 1 100%;
+    }
+    #dataPanel{
+      flex: 0 0 26px;
+      &:after{
+        opacity: 1;
+      }
+    }
+    .splitControl{
+      transform: translateX(-50%) rotate(0);
+    }
+  }
+
   #map,#dataPanel{
     position: relative;
     display: flex;
     flex-direction: column;
+    transition: flex .25s linear;
   }
   #map{
     flex: 1 0 60%;
@@ -13,6 +30,18 @@
     display: flex;
     flex-direction: column;
   	border-top: 1px solid @grey;
+    &:after{
+      content: '';
+      position: absolute;
+      top:0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: @white;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity .25s linear;
+    }
   }
   >.tabs{
     position: absolute;
@@ -42,6 +71,7 @@
       font-weight: 700;
       color:@orange;
       margin-top: 5px;
+      text-transform: uppercase;
     }
   }
   .summary{

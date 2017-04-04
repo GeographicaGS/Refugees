@@ -1,0 +1,20 @@
+<table>
+  <thead>
+    <tr>
+      <td>FROM</td>
+      <td>SETTLEMENT NAME</td>
+      <td>DATE</td>
+      <td>POPULATION</td>
+    </tr>
+  </thead>
+  <tbody>
+    <%_.each(rows,function(r){%>
+      <tr>
+        <td><%=r.source%></td>
+        <td><%=r.settlment_name%></td>
+        <td><%=Utils.formatDateComplete(new Date(r.date))%></td>
+        <td><%=Utils.formatNumber(r.count)%></td>
+      </tr>
+    <%})%>
+  </tbody>
+</table>

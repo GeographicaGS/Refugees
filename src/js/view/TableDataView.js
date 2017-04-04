@@ -2,23 +2,23 @@
 
 var Config = require('../config.js'),
   Utils = require('../utils.js'),
-  MapView = require('./MapView'),
-  template = require('../template/summary.html')
+  template = require('../template/tableData.html')
   ;
 
-module.exports = class SummaryView extends Backbone.View {
+module.exports = class TableDataView extends Backbone.View {
 
   constructor(options){
     super(options);
   }
 
   className(){
-    return 'summary';
+    return 'tableData';
   }
 
   render() {
+
     let sql = new cartodb.SQL({ user: Config.cartoUser });
-    sql.execute('SELECT collection_point, sum(count) as total FROM map2_daily_arrivals group by collection_point order by total DESC limit 4')
+    sql.execute('SELECT settlment_name, source, date_yyyy_mm_dd as date,count FROM map2_daily_arrivals order by date, settlment_name, collection_point')
     .done((data)=>{
       this.$el.html(template({rows:data.rows, Utils:Utils}));
     })

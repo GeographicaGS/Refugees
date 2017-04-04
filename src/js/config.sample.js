@@ -1,0 +1,3 @@
+module.exports = {
+  cartoUser: 'xxx'
+};
