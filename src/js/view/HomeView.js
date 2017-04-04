@@ -40,7 +40,7 @@ module.exports = class HomeView extends Backbone.View {
     sql.execute('SELECT min(date_yyyy_mm_dd) as mindate, max(date_yyyy_mm_dd) as maxdate  FROM map2_daily_arrivals')
     .done((data)=>{
       this.$('.title .date').text(`${Utils.formatDateShort(new Date(data.rows[0].mindate))} >> ${Utils.formatDateShort(new Date(data.rows[0].maxdate))}`);
-      this.$('.dataPanel .header h4 span').text(`${Utils.formatDateShortNotYear(new Date(data.rows[0].mindate))} - ${Utils.formatDateShortNotYear(new Date(data.rows[0].maxdate))}`);
+      this.$('.dataPanel .header h4 span').text(`${Utils.formatDateShortNotDay(new Date(data.rows[0].mindate))} - ${Utils.formatDateShortNotDay(new Date(data.rows[0].maxdate))}`);
     })
     .error((errors)=>{
       console.log("errors:" + errors);
