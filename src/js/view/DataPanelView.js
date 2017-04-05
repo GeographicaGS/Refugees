@@ -1,17 +1,6 @@
 "use strict";
 
-var LineChartView = require('./LineChartView'),
-  TableDataView = require('./TableDataView'),
-  template = require('../template/dataPanel.html')
-  ;
-
 module.exports = class DataPanelView extends Backbone.View {
-
-  constructor(options){
-    super(options);
-    this._lineChartView = new LineChartView();
-    this._tableDataView = new TableDataView();
-  }
 
   className(){
     return 'dataPanel';
@@ -24,16 +13,18 @@ module.exports = class DataPanelView extends Backbone.View {
   }
 
   remove(){
-    if(this._lineChartView)
-      this._lineChartView.remove();
+    if(this._chartView)
+      this._chartView.remove();
+    if(this._tableDataView)
+      this._tableDataView.remove();
     super.remove();
   }
 
   render() {
-    this.$el.html(template());
-    // this.$('.content').html(this._lineChartView.render().$el);
+    this.$el.html(this._template());
+    this.$('.content').html(this._chartView.render().$el);
     this.$('.content').append(this._tableDataView.render().$el);
-    // this._tableDataView.$el.addClass('hide');
+    this._tableDataView.$el.addClass('hide');
     return this;
   }
 
@@ -42,9 +33,9 @@ module.exports = class DataPanelView extends Backbone.View {
     $(e.currentTarget).addClass('active');
     if($(e.currentTarget).index() == 0){
       this._tableDataView.$el.addClass('hide');
-      this._lineChartView.$el.removeClass('hide');
+      this._chartView.$el.removeClass('hide');
     }else{
-      this._lineChartView.$el.addClass('hide');
+      this._chartView.$el.addClass('hide');
       this._tableDataView.$el.removeClass('hide');
     }
   }

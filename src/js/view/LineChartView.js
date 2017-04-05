@@ -1,26 +1,13 @@
 "use strict";
 
 var d3 = require('d3'),
-  Utils = require('../utils.js'),
-  Config = require('../config.js')
+  Utils = require('../utils.js')
 ;
 
 module.exports = class DataPanelView extends Backbone.View {
 
   constructor(options){
     super(options);
-  }
-
-  render() {
-    let sql = new cartodb.SQL({ user: Config.cartoUser });
-    sql.execute('SELECT date_yyyy_mm_dd as date, sum(count) as total  FROM map2_daily_arrivals group by date_yyyy_mm_dd order by date')
-    .done((data)=>{
-      this._draw(data.rows)
-    })
-    .error((errors)=>{
-      console.log("errors:" + errors);
-    })
-    return this;
   }
 
   _draw(data){
@@ -78,17 +65,17 @@ module.exports = class DataPanelView extends Backbone.View {
       .select(".domain")
       .remove();
 
-    let mainPath = g.append("path")
+    let linePath = g.append("path")
       .datum(data)
-      .attr("class", "mainPath")
+      .attr("class", "linePath")
       .attr("fill", "none")
       .attr("stroke-linejoin", "round")
       .attr("stroke-linecap", "round")
       .attr("stroke-width", 2)
       .attr("d", line);
 
-    let totalLength = mainPath.node().getTotalLength();
-    mainPath
+    let totalLength = linePath.node().getTotalLength();
+    linePath
      .attr("stroke-dasharray", totalLength + " " + totalLength )
      .attr("stroke-dashoffset", totalLength)
      .transition()

@@ -3,7 +3,8 @@
 var $ = require('jquery'),
   Backbone = require('backbone'),
   App = require('./App'),
-  HomeView = require('./view/HomeView');
+  AppsList = require('./appsList'),
+  HomeView = AppsList.apps[AppsList.currentApp].home;
 
 
 Backbone.$ = $;

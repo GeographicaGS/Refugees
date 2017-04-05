@@ -1,7 +1,12 @@
 .mapPopup{
+	height: 0;
+	overflow: hidden;
 	background-color: @black;
   border-radius: 4px;
   box-shadow: 0 1px 8px 0 rgba(0,0,0,0.15);
+	&.active{
+		height: auto;
+	}
   .headerPopup,.contentPopup{
     padding: 0 16px;
   }

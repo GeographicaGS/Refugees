@@ -1,16 +1,10 @@
 "use strict";
 
 var Config = require('../config.js'),
-  Utils = require('../utils.js'),
-  MapView = require('./MapView'),
-  template = require('../template/summary.html')
-  ;
+  Utils = require('../utils.js')
+;
 
 module.exports = class SummaryView extends Backbone.View {
-
-  constructor(options){
-    super(options);
-  }
 
   className(){
     return 'summary';
@@ -18,13 +12,14 @@ module.exports = class SummaryView extends Backbone.View {
 
   render() {
     let sql = new cartodb.SQL({ user: Config.cartoUser });
-    sql.execute('SELECT country, sum(refugees) as total FROM map1_refugees_district group by country order by total DESC limit 4')
+    sql.execute(this._query)
     .done((data)=>{
-      this.$el.html(template({rows:data.rows, Utils:Utils}));
+      this.$el.html(this._template({rows:data.rows, Utils:Utils}));
     })
     .error((errors)=>{
       console.log("errors:" + errors);
     })
     return this;
   }
+
 }
