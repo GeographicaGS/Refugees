@@ -1,0 +1,26 @@
+<div class="mapPopup">
+  <div class="headerPopup">
+    <div class="percentage" style="width:<%= data.overcapacity > 0 ? '100':'0'%>%;"></div>
+    <h3><%=data.settlement%></h3>
+  </div>
+  <div class="contentPopup">
+    <div>
+      <h4>capacity</h4>
+      <span><%=Utils.formatNumber(data.capacity)%></span>
+      <%if(data.overcapacity > 0){%>
+        <span class="orange">+<%=Utils.formatNumber(data.overcapacity/data.capacity * 100)%>%</span>
+      <%}%>
+      <span></span>
+    </div>
+    <div class="rows">
+      <div>
+        <h4>Current population</h4>
+        <span><%=Utils.formatNumber(data.population)%></span>
+      </div>
+      <div>
+        <h4>Current overcapacity</h4>
+        <span><%=Utils.formatNumber(data.overcapacity)%></span>
+      </div>
+    </div>
+  </div>
+</div>

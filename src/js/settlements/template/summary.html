@@ -1,0 +1,45 @@
+<%
+  var sum = 0;
+  _.each(rows,function(r){
+    sum += r.capacity;
+  })
+%>
+<div class="head">
+  <h3>Total capacity</h3>
+  <h4><%=Utils.formatNumber(sum)%></h4>
+</div>
+<div class="data">
+  <div class="row">
+    <div class="cell">
+      <h5><%=rows[0].settlement%></h5>
+      <span><%=Utils.formatNumber(rows[0].capacity)%></span>
+      <%if(rows[0].overcapacity > 0){%>
+        <span class="orange">+<%=Utils.formatNumber((rows[0].overcapacity/rows[0].capacity) * 100,2)%>%</span>
+      <%}%>
+    </div>
+    <div class="cell">
+      <h5><%=rows[1].settlement%></h5>
+      <span><%=Utils.formatNumber(rows[1].capacity)%></span>
+      <%if(rows[1].overcapacity > 0){%>
+        <span class="orange">+<%=Utils.formatNumber((rows[1].overcapacity/rows[1].capacity) * 100,2)%>%</span>
+      <%}%>
+    </div>
+  </div>
+  <div class="row">
+    <div class="cell">
+      <h5><%=rows[2].settlement%></h5>
+      <span><%=Utils.formatNumber(rows[2].capacity)%></span>
+      <%if(rows[2].overcapacity > 0){%>
+        <span class="orange">+<%=Utils.formatNumber((rows[2].overcapacity/rows[2].capacity) * 100,2)%>%</span>
+      <%}%>
+    </div>
+    <div class="cell">
+      <h5><%=rows[3].settlement%></h5>
+      <span><%=Utils.formatNumber(rows[3].capacity)%></span>
+      <%if(rows[3].overcapacity > 0){%>
+        <span class="orange">+<%=Utils.formatNumber((rows[3].overcapacity/rows[3].capacity) * 100,2)%>%</span>
+      <%}%>
+    </div>
+  </div>
+
+</div>

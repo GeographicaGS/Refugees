@@ -1,6 +1,9 @@
 .summary{
-  width: 310px;
+  min-width: 310px;
   background-color: rgba(255, 255, 255, .7);
+  &.width400{
+    min-width: 400px;
+  }
   .head,.data{
     padding-left: 16px;
   }
@@ -36,11 +39,15 @@
           font-weight: 300;
           line-height: 16px;
           color: @grey_2;
+          white-space: nowrap;
         }
         span{
           font-size: 18px;
           font-weight: 300;
           line-height: 21px;
+          &.orange{
+            font-size: 14px;
+          }
         }
       }
     }

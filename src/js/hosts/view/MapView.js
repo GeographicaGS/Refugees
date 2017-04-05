@@ -12,6 +12,7 @@ module.exports = class MapView extends CommonMapView {
     this._popupHover = L.popup({
       closeButton: false
     });
+    this._popupHoverTemplate = require('../template/mapPopup.html');
   }
 
   render() {
@@ -22,21 +23,7 @@ module.exports = class MapView extends CommonMapView {
       user_name: Config.cartoUser,
       type: 'cartodb',
       sublayers: [
-        {
-          sql: `SELECT * FROM uganda`,
-          cartocss: `#layer {
-            polygon-fill: #f5f5f3;
-            polygon-opacity:0;
-            line-width: 1;
-           line-color: #636e73 ;
-           line-opacity: 1;
-
-            [zoom >= 8]{
-          	line-width: 1.25;
-          	}
-
-          }`
-        },
+        this._ugandaLayer,
         {
           sql: `SELECT a.the_geom, a.the_geom_webmercator, a.dname_uppe, a.cartodb_id, b.dname2014,b.refugee_pop,
                 b.percentage_refugee, b.host_pop,b.month_year,b.url
@@ -81,52 +68,15 @@ module.exports = class MapView extends CommonMapView {
         },
         {
           sql: `SELECT * FROM map3_settlements_over_time`,
-          cartocss: `#layer {
-            marker-width: 16;
-            marker-fill-opacity: 1;
-            marker-file: url('https://s3.amazonaws.com/com.cartodb.users-assets.production/production/geointelligence/assets/20170404115910UGD-camp-icon_32.svg');
-            marker-allow-overlap: true;
-
-            [zoom >= 9]{
-          	marker-width: 24;
-          	}
-            [zoom >= 11]{
-          	marker-width: 32;
-          	}
-          }`
+          cartocss: require('../../template/settlementsCartoCss.html')()
         }
     ]
     })
     .addTo(this.map)
     .done((layer)=>{
-      layer.getSubLayer(1).setInteraction(true);
-      layer.getSubLayer(1).on('featureOver',(e, pos, pixel, data, sublayer)=>{
-        this.$('.mapPopup').removeClass('active');
-        // if(data.percentage_refugee){
-          if(!this.map.hasLayer(this._popupHover) && !this.map.hasLayer(this._popup)){
-            this._popupHover
-            .setLatLng(pos)
-            .openOn(this.map)
-            .setContent(require('../template/mapPopup.html')({Utils:Utils, data:data}))
-            ;
-          }else if(this.map.hasLayer(this._popupHover)){
-            this._popupHover
-            .setLatLng(pos)
-            .setContent(require('../template/mapPopup.html')({Utils:Utils, data:data}))
-            .update();
-          }
-          this.$('.mapPopup').addClass('active');
-        // }else{
-        //   this.map.closePopup();
-        // }
-      });
-
-      layer.getSubLayer(1).on('mouseout', ()=>{
-        this.map.closePopup();
-      })
-
+      this._featureOver(layer.getSubLayer(1));
+      this._mouseout(layer.getSubLayer(1));
     });
-
     return this;
   }
 }

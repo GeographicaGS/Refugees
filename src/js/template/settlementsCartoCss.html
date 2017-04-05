@@ -1,0 +1,13 @@
+#layer {
+  marker-width: 16;
+  marker-fill-opacity: 1;
+  marker-file: url('https://s3.amazonaws.com/com.cartodb.users-assets.production/production/geointelligence/assets/20170404115910UGD-camp-icon_32.svg');
+  marker-allow-overlap: true;
+
+  [zoom >= 9]{
+	marker-width: 24;
+	}
+  [zoom >= 11]{
+	marker-width: 32;
+	}
+}

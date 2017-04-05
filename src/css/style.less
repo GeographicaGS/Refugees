@@ -21,6 +21,11 @@ body{
   -moz-osx-font-smoothing: grayscale;
   overflow: hidden;
   color:@black;
+
+  .orange{
+    color:@orange;
+  }
+
   main{
     height: ~ "calc(100vh)";
     display: flex;
@@ -101,6 +106,54 @@ body{
       }
       .leaflet-popup-tip-container{
         display: none;
+      }
+      .cartodb-timeslider{
+        margin: 0;
+        background: transparent;
+        box-shadow: none;
+        border: none;
+        left: @marginHomeLeft !important;
+        bottom: 56px !important;
+        background-color: rgba(255,255,255,.7);
+        border-radius: 0;
+        ul li{
+          border:none;
+        }
+        .time{
+          position: absolute;
+          right: 10px;
+          top: 12px;
+          p{
+            font-size: 11px;
+            color: @black;
+            font-family: 'Roboto', sans-serif;
+            text-align: right;
+          }
+        }
+        .slider-wrapper{
+          width: 349px;
+          .ui-slider-horizontal, .ui-slider-range{
+            width: 100%;
+          	background-color: @grey;
+          }
+          .ui-slider-handle{
+            width: 10px;
+            height: 10px;
+            border-radius: 100%;
+            border: none;
+            background: @orange;
+            top: -3px;
+          }
+        }
+        a.button{
+          background-position: center !important;
+        }
+        a.button{
+          background-image: url('/img/play-icon.svg');
+          &.stop{
+            background-image: url('/img/pause-icon.svg');
+          }
+        }
       }
       .hide{
         display: none;

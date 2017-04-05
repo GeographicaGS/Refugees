@@ -1,0 +1,22 @@
+<table>
+  <thead>
+    <tr>
+      <td>settlement</td>
+      <td>established date</td>
+      <td>capacity</td>
+      <td>population</td>
+      <td>overcapacity</td>
+    </tr>
+  </thead>
+  <tbody>
+    <%_.each(rows,function(r){%>
+      <tr>
+        <td><%=r.settlement%></td>
+        <td><%=r.established_yyyy_mm_dd%></td>
+        <td><%=Utils.formatNumber(r.capacity)%></td>
+        <td><%=Utils.formatNumber(r.population)%></td>
+        <td><%=Utils.formatNumber(r.overcapacity)%></td>
+      </tr>
+    <%})%>
+  </tbody>
+</table>

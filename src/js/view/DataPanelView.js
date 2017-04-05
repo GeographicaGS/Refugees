@@ -22,9 +22,13 @@ module.exports = class DataPanelView extends Backbone.View {
 
   render() {
     this.$el.html(this._template());
-    this.$('.content').html(this._chartView.render().$el);
-    this.$('.content').append(this._tableDataView.render().$el);
-    this._tableDataView.$el.addClass('hide');
+    if(this._chartView)
+      this.$('.content').html(this._chartView.render().$el);
+    if(this._tableDataView){
+      this.$('.content').append(this._tableDataView.render().$el);
+      if(this._chartView)
+        this._tableDataView.$el.addClass('hide');
+    }
     return this;
   }
 

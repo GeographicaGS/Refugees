@@ -9,9 +9,21 @@ module.exports = class MapView extends Backbone.View {
   constructor(options){
     super(options);
     this.$el = options.el;
-    this._popupHover = L.popup({
-      closeButton: false
-    });
+    this._ugandaLayer = {
+      sql: `SELECT * FROM uganda`,
+      cartocss: `#layer {
+        polygon-fill: #f5f5f3;
+        polygon-opacity:0;
+        line-width: 1;
+       line-color: #636e73 ;
+       line-opacity: 1;
+
+        [zoom >= 8]{
+        line-width: 1.25;
+        }
+
+      }`
+    };
   }
 
   events(){
@@ -37,4 +49,31 @@ module.exports = class MapView extends Backbone.View {
 
     return this;
   }
+
+  _featureOver(layer){
+    layer.setInteraction(true);
+    layer.on('featureOver',(e, pos, pixel, data, sublayer)=>{
+      this.$('.mapPopup').removeClass('active');
+        if(!this.map.hasLayer(this._popupHover) && !this.map.hasLayer(this._popup)){
+          this._popupHover
+          .setLatLng(pos)
+          .openOn(this.map)
+          .setContent(this._popupHoverTemplate({Utils:Utils, data:data}))
+          ;
+        }else if(this.map.hasLayer(this._popupHover)){
+          this._popupHover
+          .setLatLng(pos)
+          .setContent(this._popupHoverTemplate({Utils:Utils, data:data}))
+          .update();
+        }
+        this.$('.mapPopup').addClass('active');
+    });
+  }
+
+  _mouseout(layer){
+    layer.on('mouseout', ()=>{
+      this.map.closePopup();
+    })
+  }
+
 }
