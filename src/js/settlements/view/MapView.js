@@ -2,26 +2,27 @@
 
 var Config = require('../../config.js'),
   Utils = require('../../utils.js'),
-  CommonMapView = require('../../view/MapView')
+  CommonMapView = require('../../view/MapView'),
+  LegendView = require('./LegendView')
 ;
 
 module.exports = class MapView extends CommonMapView {
 
   constructor(options){
     super(options);
-    this._popupHover = L.popup({
-      closeButton: false
-    });
     this._finishTorque = false;
     this._popupHoverTemplate = require('../template/mapPopup.html');
+    this._legendView = new LegendView();
   }
 
   render() {
 
     super.render();
 
+    this.$el.append(this._legendView.render().$el);
+
     let sql = new cartodb.SQL({ user: Config.cartoUser });
-    sql.execute(`SELECT max(to_date(established_yyyy_mm_dd,'DD/MM/YYYY')) as date FROM map3_settlements_over_time`)
+    sql.execute(`SELECT max(to_date(established_yyyy_mm_dd,'DD/MM/YYYY')) as date FROM map3_settlements_over_time WHERE established_yyyy_mm_dd is not null`)
     .done((data)=>{
       this._maxDate = new Date(data.rows[0].date);
       this._renderTorque();
@@ -36,14 +37,25 @@ module.exports = class MapView extends CommonMapView {
       sublayers: [
         this._ugandaLayer,
         {
-          sql: `SELECT * FROM map3_settlements_over_time`,
+          sql: `SELECT * FROM map3_settlements_over_time where type!='Refugee transit Centre'`,
           cartocss: `#layer {
-            marker-width: 32;
-            marker-fill-opacity: 0;
-            marker-file: url('https://s3.amazonaws.com/com.cartodb.users-assets.production/production/geointelligence/assets/20170404115910UGD-camp-icon_32.svg');
+            marker-width: 18;
+            marker-opacity: 1;
+            marker-fill-opacity: 1;
+            marker-file: url('https://s3.amazonaws.com/com.cartodb.users-assets.production/production/geointelligence/assets/20170418082716camp-un_32.svg');
             marker-allow-overlap: true;
+
+            [zoom >= 8]{
+          	marker-width: 16;
+            }
+            [zoom >= 10]{
+          	marker-width: 24;
+          	}
+            [zoom >= 12]{
+          	marker-width: 32;
+          	}
           }`,
-          interactivity: 'settlement, capacity, overcapacity, population, established_yyyy_mm_dd'
+          interactivity: 'settlement, capacity, overcapacity, population, established_yyyy_mm_dd, male, female'
         }
       ]
     })
@@ -63,7 +75,7 @@ module.exports = class MapView extends CommonMapView {
       options: {
         user_name: Config.cartoUser,
         loop: false,
-        query: `SELECT *, to_date(established_yyyy_mm_dd,'DD/MM/YYYY') as to_date FROM map3_settlements_over_time`,
+        query: `SELECT *, to_date(established_yyyy_mm_dd,'DD/MM/YYYY') as to_date FROM map3_settlements_over_time where type!='Refugee transit Centre'`,
         cartocss: `Map {
           -torque-frame-count: 32;
           -torque-animation-duration: 10;
@@ -80,6 +92,7 @@ module.exports = class MapView extends CommonMapView {
     .done((layer)=>{
       this._torqueLayer = layer;
       layer.setZIndex(3);
+      $('.cartodb-timeslider .slider-wrapper').css({'width':'349px'});
       $('.cartodb-timeslider a.button').click(()=>{
         if(this._finishTorque){
           this._finishTorque = false;
@@ -91,29 +104,6 @@ module.exports = class MapView extends CommonMapView {
           this._finishTorque = true;
       });
 
-    });
-  }
-
-  _featureOver(layer){
-    layer.setInteraction(true);
-    layer.on('featureOver',(e, pos, pixel, data, sublayer)=>{
-      let dateArray = data.established_yyyy_mm_dd.split('/');
-      if(new Date(`${dateArray[2]}-${dateArray[1]}-${dateArray[0]}`).getTime() <= this._torqueLayer.getTime().getTime()){
-        this.$('.mapPopup').removeClass('active');
-        if(!this.map.hasLayer(this._popupHover) && !this.map.hasLayer(this._popup)){
-          this._popupHover
-          .setLatLng(pos)
-          .openOn(this.map)
-          .setContent(this._popupHoverTemplate({Utils:Utils, data:data}))
-          ;
-        }else if(this.map.hasLayer(this._popupHover)){
-          this._popupHover
-          .setLatLng(pos)
-          .setContent(this._popupHoverTemplate({Utils:Utils, data:data}))
-          .update();
-        }
-        this.$('.mapPopup').addClass('active');
-      }
     });
   }
 

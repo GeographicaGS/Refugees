@@ -23,7 +23,7 @@
   }
   #map{
     flex: 1 0 60%;
-    min-height: 457px;
+    min-height: 476px;
   }
   #dataPanel{
     flex: 1 1 40%;
@@ -43,7 +43,7 @@
       transition: opacity .25s linear;
     }
   }
-  >.tabs{
+  .tabs.range{
     position: absolute;
     top:30px;
     left: 50%;
@@ -89,23 +89,13 @@
     display: flex;
     align-items: center;
     color: @grey_3;
-    &:last-of-type{
-      left:initial;
-      right: @marginHomeRight;
-      background-color: rgba(255,255,255,.7);
-      padding-right: 5px;
-      height: 16px;
-    }
-  }
-  .info{
-    position: absolute;
-    top: 30px;
-    right: @marginHomeRight;
-    z-index: 1;
-    width: 24px;
-    height: 24px;
-    background-image: url('/img/UGD-camp-icon-info.svg');
-    background-size: cover;
+    // &:last-of-type{
+    //   left:initial;
+    //   right: @marginHomeRight;
+    //   background-color: rgba(255,255,255,.7);
+    //   padding-right: 5px;
+    //   height: 16px;
+    // }
   }
   .splitControl{
     position: absolute;

@@ -1,5 +1,7 @@
 "use strict";
 
+var Backbone = require('backbone');
+
 module.exports = class HomeView extends Backbone.View {
 
   constructor(options){

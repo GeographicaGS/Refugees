@@ -1,6 +1,7 @@
 "use strict";
 
-var Config = require('../config.js'),
+var Backbone = require('backbone'),
+  Config = require('../config.js'),
   Utils = require('../utils.js')
 ;
 

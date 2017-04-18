@@ -15,6 +15,8 @@
       <span><%=Utils.formatNumber(rows[0].capacity)%></span>
       <%if(rows[0].overcapacity > 0){%>
         <span class="orange">+<%=Utils.formatNumber((rows[0].overcapacity/rows[0].capacity) * 100,2)%>%</span>
+      <%}else if(rows[0].overcapacity < 0){%>
+        <span class="green"><%=Utils.formatNumber((rows[0].overcapacity/rows[0].capacity) * 100,2)%>%</span>
       <%}%>
     </div>
     <div class="cell">
@@ -22,6 +24,8 @@
       <span><%=Utils.formatNumber(rows[1].capacity)%></span>
       <%if(rows[1].overcapacity > 0){%>
         <span class="orange">+<%=Utils.formatNumber((rows[1].overcapacity/rows[1].capacity) * 100,2)%>%</span>
+      <%}else if(rows[1].overcapacity < 0){%>
+        <span class="green"><%=Utils.formatNumber((rows[1].overcapacity/rows[1].capacity) * 100,2)%>%</span>
       <%}%>
     </div>
   </div>
@@ -31,6 +35,8 @@
       <span><%=Utils.formatNumber(rows[2].capacity)%></span>
       <%if(rows[2].overcapacity > 0){%>
         <span class="orange">+<%=Utils.formatNumber((rows[2].overcapacity/rows[2].capacity) * 100,2)%>%</span>
+      <%}else if(rows[2].overcapacity < 0){%>
+        <span class="green"><%=Utils.formatNumber((rows[2].overcapacity/rows[2].capacity) * 100,2)%>%</span>
       <%}%>
     </div>
     <div class="cell">
@@ -38,6 +44,8 @@
       <span><%=Utils.formatNumber(rows[3].capacity)%></span>
       <%if(rows[3].overcapacity > 0){%>
         <span class="orange">+<%=Utils.formatNumber((rows[3].overcapacity/rows[3].capacity) * 100,2)%>%</span>
+      <%}else if(rows[3].overcapacity < 0){%>
+        <span class="green"><%=Utils.formatNumber((rows[3].overcapacity/rows[3].capacity) * 100,2)%>%</span>
       <%}%>
     </div>
   </div>

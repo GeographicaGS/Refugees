@@ -1,23 +1,32 @@
 "use strict";
 
-var d3 = require('d3'),
-  Utils = require('../utils.js')
+var Backbone = require('backbone'),
+  d3 = require('d3')
 ;
 
 module.exports = class DataPanelView extends Backbone.View {
 
-  _draw(data){
+  constructor(options){
+    super(options);
 
+    $(window).resize(()=>{
+      if(this.data);
+      this._draw(this.data);
+    });
+  }
+
+  _draw(data){
+    this.data = data;
     let parent = this.$el.parent();
     this.$el.html(`<svg width="${parent.width()}" height="${parent.height()}"></svg>`);
 
 
     let svg = d3.select(this.$('svg')[0]),
       maxLabel = d3.max(data, function(d) { return d.total; }),
-      maxWidth = '50'
+      maxWidth
     ;
 
-    // svg.append("text").text(maxLabel).each(function() { maxWidth = Math.ceil(this.getBBox().width) + 10; }).remove()
+    svg.append("text").text(maxLabel).each(function() { maxWidth = Math.ceil(this.getBBox().width) + 10; }).remove()
 
     let margin = {top: 20, right: maxWidth, bottom: 30, left: maxWidth},
       minDate,
@@ -25,8 +34,8 @@ module.exports = class DataPanelView extends Backbone.View {
       width = Math.floor(parent.width()) - margin.left - margin.right,
       height = Math.floor(parent.height()) - margin.top - margin.bottom,
       g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")"),
-      x = d3.scaleBand().rangeRound([0, width]).padding(0.1),
-      y = d3.scaleLinear().rangeRound([0,height])
+      x = d3.scaleBand().rangeRound([0, width]).padding(0.5),
+      y = d3.scaleLinear().rangeRound([height,0])
     ;
 
     x.domain(data.map(function(d) { return d.name; }));
@@ -58,16 +67,18 @@ module.exports = class DataPanelView extends Backbone.View {
       .enter().append("rect")
         .attr("class", "barPath")
         .attr("x", function(d) { return x(d.name); })
-        .attr("y", function(d) { return height; })
+        // .attr("y", function(d) { return height; })
+        .attr("y", height)
         .attr("width", x.bandwidth())
+        // .attr("height", 0)
         .attr("height", 0)
         .attr("total", function(d) { return d.total; })
         .attr("name", function(d) { return d.name; })
         .transition()
-  			.duration(200)
+  			.duration(250)
   			.delay(function (d, i) {return i * 50;})
-        .attr("y", function (d, i) {return height - y(d.total);})
-        .attr("height", function(d) { return y(d.total); })
+        .attr("y", function(d) { return y(d.total); })
+        .attr("height", function(d) { return height - y(d.total); })
     ;
 
     let popup = g.append('rect')
@@ -85,6 +96,8 @@ module.exports = class DataPanelView extends Backbone.View {
       .attr("y", 0)
     ;
 
+    let that = this;
+
     svg.selectAll(".barPath").on('mousemove',function() {
 
       svg.attr("class", "active");
@@ -94,7 +107,7 @@ module.exports = class DataPanelView extends Backbone.View {
         y = d3.mouse(this)[1],
         textLength
       ;
-      popupText.html('<tspan class="first">' + $(this).attr('name')  + ':</tspan> <tspan> ' + Utils.formatNumber(parseFloat($(this).attr("total"))) + "%</tspan>");
+      popupText.html(that._popupText($(this).attr('name'),$(this).attr("total")));
       popupText.attr("y", y + 2);
       textLength = popupText.node().getComputedTextLength() + 20;
       popup.attr("y", y - 12);
@@ -114,6 +127,11 @@ module.exports = class DataPanelView extends Backbone.View {
       svg.attr("class", null);
     });
 
+  }
+
+  _popupText(name,total){
+    console.log('Function missing')
+    return null;
   }
 
 }

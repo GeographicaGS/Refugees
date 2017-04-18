@@ -9,10 +9,41 @@
 @grey_3:#71777B;
 @grey_4:#E4E8EB;
 @grey_5:#D7D7D7;
+@green: #7ED321;
+
+@green_ramp1: #D1EEEA;
+@green_ramp2: #A8DBD9;
+@green_ramp3: #85C4C9;
+@green_ramp4: #68ABB8;
+@green_ramp5: #4F90A6;
+@green_ramp6: #3B738F;
+@green_ramp7: #2A5674;
 
 @marginHomeLeft:30px;
 @marginHomeRight:30px;
 @marginHomeBottom:10px;
+
+@keyframes load {
+  0% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+
+  100% {
+    stroke-dashoffset: 1260;
+    opacity: 1;
+  }
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotateZ(-90deg);
+  }
+
+  100% {
+    transform: rotateZ(270deg);;
+  }
+}
 
 body{
   font-family: 'Roboto', sans-serif;
@@ -24,6 +55,10 @@ body{
 
   .orange{
     color:@orange;
+  }
+
+  .green{
+    color:@green;
   }
 
   main{
@@ -62,8 +97,9 @@ body{
         }
       }
       .leaflet-top.leaflet-right{
-        top: 50%;
-        transform: translateY(-50%);
+        top: 20px;
+        // top: 50%;
+        // transform: translateY(-50%);
         .leaflet-control-zoom{
           box-shadow: none;
           border: 1px solid @grey;
@@ -92,6 +128,7 @@ body{
         color:inherit;
       }
       .leaflet-control-attribution{
+        display: none;
         bottom: 10px;
         right: 167px;
         padding-right: 0;
@@ -107,15 +144,26 @@ body{
       .leaflet-popup-tip-container{
         display: none;
       }
+      .cartodb-logo{
+        left: inherit !important;
+        right: ~ "calc(50% + 38px)"!important;
+        bottom: 16px !important;
+        // &.twoRowLegend{
+        //   bottom: 66px !important;
+        // }
+      }
       .cartodb-timeslider{
         margin: 0;
         background: transparent;
         box-shadow: none;
         border: none;
         left: @marginHomeLeft !important;
-        bottom: 56px !important;
+        bottom: 16px !important;
         background-color: rgba(255,255,255,.7);
         border-radius: 0;
+        height: 48px;
+        display: flex;
+        align-items: center;
         ul li{
           border:none;
         }
@@ -128,10 +176,12 @@ body{
             color: @black;
             font-family: 'Roboto', sans-serif;
             text-align: right;
+            padding-top: 7px;
           }
         }
         .slider-wrapper{
-          width: 349px;
+          // width: 349px;
+          width: 259px;
           .ui-slider-horizontal, .ui-slider-range{
             width: 100%;
           	background-color: @grey;
@@ -143,6 +193,7 @@ body{
             border: none;
             background: @orange;
             top: -3px;
+            transition: left .25s linear;
           }
         }
         a.button{
@@ -158,6 +209,17 @@ body{
       .hide{
         display: none;
       }
+      .ellipsis{
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .info{
+        width: 24px;
+        height: 24px;
+        background-image: url('/img/UGD-camp-icon-info.svg');
+        background-size: cover;
+      }
   	}
   }
 }
@@ -166,3 +228,4 @@ body{
 @import "./summary.less";
 @import "./dataPanel.less";
 @import "./map.less";
+@import "./loading.less";

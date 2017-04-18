@@ -1,6 +1,5 @@
 <div class="mapPopup">
-  <div class="headerPopup">
-    <div class="percentage" style="width:<%= data.overcapacity > 0 ? '100':'0'%>%;"></div>
+  <div class="headerPopup border">
     <h3><%=data.settlement%></h3>
   </div>
   <div class="contentPopup">
@@ -9,6 +8,8 @@
       <span><%=Utils.formatNumber(data.capacity)%></span>
       <%if(data.overcapacity > 0){%>
         <span class="orange">+<%=Utils.formatNumber(data.overcapacity/data.capacity * 100)%>%</span>
+      <%}else if(data.overcapacity < 0){%>
+        <span class="green"><%=Utils.formatNumber(data.overcapacity/data.capacity * 100)%>%</span>
       <%}%>
       <span></span>
     </div>
@@ -21,6 +22,24 @@
         <h4>Current overcapacity</h4>
         <span><%=Utils.formatNumber(data.overcapacity)%></span>
       </div>
+    </div>
+    <div class="rows">
+      <div>
+        <h4>Males</h4>
+        <span><%=Utils.formatNumber(data.male)%></span>
+      </div>
+      <div>
+        <h4>Females</h4>
+        <span><%=Utils.formatNumber(data.female)%></span>
+      </div>
+    </div>
+    <div>
+      <h4>Established</h4>
+      <%
+        var splitted = data.established_yyyy_mm_dd.split('/');
+        var date = new Date(splitted[2] + '-' + splitted[1] + '-' + splitted[0]);
+      %>
+      <span><%=Utils.formatDateShort(date)%></span>
     </div>
   </div>
 </div>

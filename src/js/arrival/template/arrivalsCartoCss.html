@@ -1,0 +1,150 @@
+Map {
+  -torque-frame-count: <%=dates*steps%>;
+  -torque-animation-duration: <%=duration%>;
+  -torque-time-attribute: "datearrival";
+  -torque-aggregation-function:"avg (count)";
+  -torque-resolution: 1;
+  -torque-data-aggregation: linear;
+}
+#layer {
+  marker-width: [value];
+  marker-fill: #0072bc;
+  marker-fill-opacity: 0.9;
+  marker-line-width: 1;
+  marker-line-color: #FFF;
+  marker-line-opacity: 0.7;
+  comp-op: multiply;
+
+   [zoom >= 0]{
+	marker-width: 0;
+ }
+
+  [zoom = 5]{
+
+  [ value > 0] {
+	marker-width: 2;
+  }
+
+  [ value >= 32] {
+	marker-width: 5;
+  }
+
+  [ value >= 64] {
+	marker-width: 9;
+  }
+
+  [ value >= 96] {
+	marker-width: 14;
+  }
+
+  [ value >= 124] {
+	marker-width: 18;
+  }
+
+  [ value >= 160] {
+	marker-width: 23;
+  }
+
+  [ value >= 190] {
+	marker-width: 27;
+  }
+
+  [ value >= 220] {
+	marker-width: 32;
+  }
+
+  [ value >= 250] {
+	marker-width: 36;
+  }
+
+ }
+
+  [zoom >= 6]{
+
+  [ value > 0] {
+	marker-width: 3;
+  }
+
+  [ value >= 32] {
+	marker-width: 6;
+  }
+
+  [ value >= 64] {
+	marker-width: 12;
+  }
+
+  [ value >= 96] {
+	marker-width: 18;
+  }
+
+  [ value >= 124] {
+	marker-width: 24;
+  }
+
+  [ value >= 160] {
+	marker-width: 30;
+  }
+
+  [ value >= 190] {
+	marker-width: 36;
+  }
+
+  [ value >= 220] {
+	marker-width: 42;
+  }
+
+  [ value >= 250] {
+	marker-width: 48;
+  }
+
+ }
+
+  [zoom >= 8]{
+
+  [ value > 0] {
+	marker-width: 6;
+  }
+
+  [ value >= 32] {
+	marker-width: 12;
+  }
+
+  [ value >= 64] {
+	marker-width: 24;
+  }
+
+  [ value >= 96] {
+	marker-width: 36;
+  }
+
+  [ value >= 124] {
+	marker-width: 48;
+  }
+
+  [ value >= 160] {
+	marker-width: 60;
+  }
+
+  [ value >= 190] {
+	marker-width: 72;
+  }
+
+  [ value >= 220] {
+	marker-width: 84;
+  }
+
+  [ value >= 250] {
+	marker-width: 96;
+  }
+
+ }
+
+[frame-offset=1]{
+        marker-fill-opacity: 0.1;
+    	marker-line-opacity: 0.2;
+    }
+  [frame-offset=2]{
+        marker-fill-opacity: 0.05;
+    	marker-line-opacity: 0.1;
+    }
+}

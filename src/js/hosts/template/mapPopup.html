@@ -1,10 +1,10 @@
+<%if(data.percentage_refugee){%>
 <div class="mapPopup">
   <div class="headerPopup">
     <div class="percentage" style="width:<%=data.percentage_refugee%>%;"></div>
     <h3><%=data.dname_uppe%></h3>
   </div>
   <div class="contentPopup">
-    <%if(data.percentage_refugee){%>
     <div>
       <h4>REFUGEE POPULATION percentage</h4>
       <span><%=Utils.formatNumber(data.percentage_refugee)%>%</span>
@@ -23,10 +23,6 @@
       <h4>Date</h4>
       <span><%=data.month_year%></span>
     </div>
-    <%}else{%>
-      <div>
-        <h4>No Data</h4>
-      </div>
-    <%}%>
   </div>
 </div>
+<%}%>

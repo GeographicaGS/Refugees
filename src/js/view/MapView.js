@@ -1,6 +1,7 @@
 "use strict";
 
-var Config = require('../config.js'),
+var Backbone = require('backbone'),
+  Config = require('../config.js'),
   Utils = require('../utils.js')
 ;
 
@@ -24,10 +25,24 @@ module.exports = class MapView extends Backbone.View {
 
       }`
     };
+    this._popupHover = L.popup({
+      closeButton: false,
+      // keepInView:true
+      autoPan:false
+    });
   }
 
   events(){
     return {};
+  }
+
+  remove(){
+    if(this._legendView)
+      this._legendView.remove();
+
+    this.map.remove();
+    this.$el.remove();
+    super.remove();
   }
 
   render() {
@@ -38,7 +53,7 @@ module.exports = class MapView extends Backbone.View {
     }).setView([1.372598,30.0537566], 7);
 
     L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_nolabels/{z}/{x}/{y}.png', {
-         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, &copy;<a href="https://carto.com/attribution">CARTO</a>'
+        //  attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, &copy;<a href="https://carto.com/attribution">CARTO</a>'
       }).addTo(this.map);
 
     this._labelLayer = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_only_labels/{z}/{x}/{y}.png', {
@@ -50,23 +65,26 @@ module.exports = class MapView extends Backbone.View {
     return this;
   }
 
-  _featureOver(layer){
+  _featureOver(layer,popupTemplate=null,marginTop=null){
     layer.setInteraction(true);
+    popupTemplate = popupTemplate ? popupTemplate:this._popupHoverTemplate;
     layer.on('featureOver',(e, pos, pixel, data, sublayer)=>{
-      this.$('.mapPopup').removeClass('active');
-        if(!this.map.hasLayer(this._popupHover) && !this.map.hasLayer(this._popup)){
-          this._popupHover
-          .setLatLng(pos)
-          .openOn(this.map)
-          .setContent(this._popupHoverTemplate({Utils:Utils, data:data}))
-          ;
-        }else if(this.map.hasLayer(this._popupHover)){
-          this._popupHover
-          .setLatLng(pos)
-          .setContent(this._popupHoverTemplate({Utils:Utils, data:data}))
-          .update();
-        }
-        this.$('.mapPopup').addClass('active');
+      if(!this.map.hasLayer(this._popupHover) && !this.map.hasLayer(this._popup)){
+        this._popupHover
+        .setLatLng(pos)
+        .openOn(this.map)
+        .setContent(popupTemplate({Utils:Utils, data:data}))
+        ;
+      }else if(this.map.hasLayer(this._popupHover)){
+        this._popupHover
+        .setLatLng(pos)
+        .setContent(popupTemplate({Utils:Utils, data:data}))
+        .update();
+      }
+      if(pixel.y < (marginTop ? marginTop:this.$('.mapPopup').height())){
+        this.$('.mapPopup').addClass('bottom');
+      }
+
     });
   }
 

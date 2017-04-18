@@ -1,19 +1,20 @@
+<a class="donwloadCsv" href="<%=csv%>">Download CSV</a>
 <table>
   <thead>
     <tr>
       <td>FROM</td>
       <td>SETTLEMENT NAME</td>
       <td>DATE</td>
-      <td>POPULATION</td>
+      <td>Refugees</td>
     </tr>
   </thead>
   <tbody>
     <%_.each(rows,function(r){%>
       <tr>
-        <td><%=r.source%></td>
+        <td><%=r.from%></td>
         <td><%=r.settlment_name%></td>
         <td><%=Utils.formatDateComplete(new Date(r.date))%></td>
-        <td><%=Utils.formatNumber(r.count)%></td>
+        <td><%=Utils.formatNumber(r.refugees)%></td>
       </tr>
     <%})%>
   </tbody>

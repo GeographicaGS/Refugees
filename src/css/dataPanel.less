@@ -20,6 +20,7 @@
   .content{
     flex: 1 1 100%;
     display: flex;
+    flex-direction: column;
     svg{
       &.active{
         .guide,.popup,.popupText{
@@ -55,6 +56,9 @@
       .guide{
         stroke: @black;
       }
+      .guideTime{
+        stroke: @grey_2;
+      }
       .popup,.popupText{
         pointer-events: none;
       }
@@ -71,9 +75,28 @@
       }
     }
     .tableData{
-      flex: 1 1 100%;
+      flex: 1 1 0px;
       margin-top: 25px;
       overflow-y: auto;
+      .donwloadCsv{
+        float: right;
+        color:@orange;
+        font-size: 14px;
+        position: absolute;
+        right: 179px;
+        top:30px;
+        &:before{
+          content: '';
+          display: inline-block;
+          width: 14px;
+          height: 14px;
+          background-image: url('/img/SGV_arrow-orange.svg');
+          transform: rotate(-90deg);
+          position: relative;
+          top: 3px;
+          margin-right: 5px;
+        }
+      }
       table{
         width: 100%;
         font-size: 14px;

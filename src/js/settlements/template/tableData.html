@@ -1,10 +1,13 @@
+<a class="donwloadCsv" href="<%=csv%>">Download CSV</a>
 <table>
   <thead>
     <tr>
       <td>settlement</td>
       <td>established date</td>
       <td>capacity</td>
-      <td>population</td>
+      <td>Refugee Population</td>
+      <td>Males</td>
+      <td>Females</td>
       <td>overcapacity</td>
     </tr>
   </thead>
@@ -12,9 +15,11 @@
     <%_.each(rows,function(r){%>
       <tr>
         <td><%=r.settlement%></td>
-        <td><%=r.established_yyyy_mm_dd%></td>
+        <td><%=r.established_date%></td>
         <td><%=Utils.formatNumber(r.capacity)%></td>
-        <td><%=Utils.formatNumber(r.population)%></td>
+        <td><%=Utils.formatNumber(r.refugee_population)%></td>
+        <td><%=Utils.formatNumber(r.males)%></td>
+        <td><%=Utils.formatNumber(r.females)%></td>
         <td><%=Utils.formatNumber(r.overcapacity)%></td>
       </tr>
     <%})%>

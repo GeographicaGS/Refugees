@@ -1,0 +1,23 @@
+<%
+  var sum = 0;
+  _.each(rows,function(r){
+    sum += r.total;
+  })
+%>
+<div class="head">
+  <h3>Total New Arrivals by country of origin</h3>
+  <h4><%=Utils.formatNumber(sum)%></h4>
+</div>
+<div class="data">
+  <div class="row">
+    <div class="cell">
+      <h5><%=rows[0].source%></h5>
+      <span><%=Utils.formatNumber(rows[0].total)%></span>
+    </div>
+    <div class="cell">
+      <h5><%=rows[1].source%></h5>
+      <span><%=Utils.formatNumber(rows[1].total)%></span>
+    </div>
+  </div>
+
+</div>

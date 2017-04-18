@@ -1,12 +1,13 @@
 .mapPopup{
-	height: 0;
 	overflow: hidden;
 	background-color: @black;
   border-radius: 4px;
   box-shadow: 0 1px 8px 0 rgba(0,0,0,0.15);
-	&.active{
-		height: auto;
+
+	&.bottom{
+		transform: translateY(calc(100% + 10px));
 	}
+
   .headerPopup,.contentPopup{
     padding: 0 16px;
   }
@@ -16,6 +17,10 @@
     display: flex;
     align-items: center;
     position: relative;
+		&.border{
+			border-bottom: 1px solid rgba(255,255,255,0.1);
+			background-color: inherit;
+		}
     .percentage{
       position: absolute;
       top: 0;
@@ -45,9 +50,14 @@
       &:first-child{
         span{
           font-size: 24px;
+					&.orange,&.green{
+						font-size: 18px;
+					}
 					&.orange{
 						color:@orange;
-						font-size: 18px;
+					}
+					&.green{
+						color:@green;
 					}
         }
       }
@@ -65,4 +75,110 @@
       font-weight: 300;
     }
   }
+}
+
+.legend{
+	position: absolute;
+	right: @marginHomeRight;
+	bottom: 8px;
+	z-index: 1;
+
+	&.closeState{
+		.info{
+			opacity: 1;
+			pointer-events: all;
+			transform: translateY(0);
+		}
+		.closeLegend,ul{
+			opacity: 0;
+			transform: translateY(10px);
+			pointer-events: none;
+		}
+	}
+
+	.closeLegend{
+		position: absolute;
+    top: -28px;
+    right: 0;
+		height: 24px;
+		width: 24px;
+		background-color: @white;
+		background-image: url('/img/UGD-camp-icon-close2.svg');
+		border-radius: 100%;
+		transition: opacity .25s ease, transform .25s ease;
+	}
+	.info{
+		position: absolute;
+		right: 0;
+		z-index: 1;
+		bottom: 0;
+		opacity: 0;
+		pointer-events: none;
+		transform: translateY(10px);
+		transition: opacity .25s ease, transform .25s ease;
+	}
+	ul{
+		background-color: @white;
+		box-shadow: 0 1px 8px 0 rgba(0,0,0,0.15);
+		border-radius: 4px;
+		transition: opacity .25s ease, transform .25s ease;
+		li{
+			display: flex;
+			align-items: center;
+			height: 32px;
+			font-size: 12px;
+			color: @grey_3;
+			padding: 0 10px;
+			&+li{
+				border-top: 1px solid @grey;
+			}
+			img{
+				width: 24px;
+				height: 24px;
+				margin-right: 10px;
+				&.setttlement{
+					height: 16px;
+				}
+			}
+		}
+	}
+	.ramp{
+		display: flex;
+		margin: 0 10px;
+		>div{
+			width: 12px;
+			height: 12px;
+			&:first-child{
+				border-radius: 2px 0 0 2px;
+			}
+			&:last-child{
+				border-radius: 0 2px 2px 0;
+			}
+		}
+		&.green{
+			>div{
+				&:nth-child(1){
+					background-color: @green_ramp1;
+				}
+				&:nth-child(2){
+					background-color: @green_ramp2;
+				}
+				&:nth-child(3){
+					background-color: @green_ramp3;
+				}
+				&:nth-child(4){
+					background-color: @green_ramp4;
+				}
+				&:nth-child(5){
+					background-color: @green_ramp5;
+				}
+				&:nth-child(6){
+					background-color: @green_ramp6;
+				}
+				&:nth-child(7){
+					background-color: @green_ramp7;
+				}
+			}
+		}
+	}
 }

@@ -1,6 +1,7 @@
 "use strict";
 
-var d3 = require('d3'),
+var Backbone = require('backbone'),
+  d3 = require('d3'),
   Utils = require('../utils.js')
 ;
 
@@ -8,10 +9,16 @@ module.exports = class DataPanelView extends Backbone.View {
 
   constructor(options){
     super(options);
+
+    $(window).resize(()=>{
+      if(this.data);
+      this._draw(this.data);
+    });
+
   }
 
   _draw(data){
-
+    this.data = data;
     let parent = this.$el.parent();
     this.$el.html(`<svg width="${parent.width()}" height="${parent.height()}"></svg>`);
 
@@ -46,7 +53,7 @@ module.exports = class DataPanelView extends Backbone.View {
 
     g.append("g")
       .attr("transform", "translate(0," + height + ")")
-      .call(d3.axisBottom(x))
+      .call(d3.axisBottom(x).ticks(7).tickFormat(function(d){return Utils.formatDateShort(d);}))
       .append("text")
       .attr("fill", "#000")
       .attr("y", 6)

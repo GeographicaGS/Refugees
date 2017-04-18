@@ -2,22 +2,24 @@
 
 var Config = require('../../config.js'),
   Utils = require('../../utils.js'),
-  CommonMapView = require('../../view/MapView')
+  CommonMapView = require('../../view/MapView'),
+  LegendView = require('./LegendView')
 ;
 
 module.exports = class MapView extends CommonMapView {
 
   constructor(options){
     super(options);
-    this._popupHover = L.popup({
-      closeButton: false
-    });
     this._popupHoverTemplate = require('../template/mapPopup.html');
+    this._popupHoverSettlementTemplate = require('../../settlements/template/mapPopup.html');
+    this._legendView = new LegendView();
   }
 
   render() {
 
     super.render();
+
+    this.$el.append(this._legendView.render().$el);
 
     cartodb.createLayer(this.map, {
       user_name: Config.cartoUser,
@@ -31,44 +33,43 @@ module.exports = class MapView extends CommonMapView {
                 left join map1_host_and_refugees b
                 on a.dname_uppe=b.dname2014`,
           cartocss: `#layer::ramp [zoom > 5]{
-             polygon-fill: ramp([percentage_refugee], (#f7feae,#d9edb0,#aed4b2,#7cb8b5,#3a93b9,#0072bc,#0052a3 ), quantiles (7));
-              polygon-opacity:1 ;
-            [percentage_refugee = null] {
-              polygon-fill: #f5f5f3 ;
-              polygon-opacity:0.3 ;
-             }
+           polygon-fill: ramp([refugee_pop], (#d1eeea,#a8dbd9,#85c4c9,#68abb8,#4f90a6,#3b738f,#2a5674), quantiles (7));
+            polygon-opacity:1 ;
+          [percentage_refugee = null] {
+            polygon-fill: #f5f5f3 ;
+            polygon-opacity:0.3 ;
+           }
+          }
 
+          #layer::limits [zoom > 5]{
+           line-width: 3;
+           line-color: #ffffff ;
+           line-opacity: 0.3;
+
+            [zoom >= 8]{
+           line-width: 5;
+           line-color: #ffffff ;
+           line-opacity: 0.3;
             }
+          }
 
-            #layer::limits [zoom > 5]{
-             line-width: 3;
-             line-color: #ffffff ;
-             line-opacity: 0.3;
+          #layer [zoom > 5]{
+           line-width: 0.7;
+           line-color: #636e73 ;
+           line-opacity: 1;
+            line-dasharray: 1, 2;
 
-              [zoom >= 8]{
-             line-width: 5;
-             line-color: #ffffff ;
-             line-opacity: 0.3;
-              }
-            }
-
-            #layer [zoom > 5]{
-             line-width: 0.7;
-             line-color: #636e73 ;
-             line-opacity: 1;
-              line-dasharray: 1, 2;
-
-              [zoom >= 8]{
-            	line-width: 1;
-              line-dasharray: 1.5, 3;
-            	}
-
-            }`,
+            [zoom >= 8]{
+          	line-width: 1;
+            line-dasharray: 1.5, 3;
+          	}
+          }`,
           interactivity: 'dname_uppe, percentage_refugee, refugee_pop, host_pop, month_year'
         },
         {
-          sql: `SELECT * FROM map3_settlements_over_time`,
-          cartocss: require('../../template/settlementsCartoCss.html')()
+          sql: `SELECT * FROM map3_settlements_over_time where type!='Refugee transit Centre'`,
+          cartocss: require('../../template/settlementsCartoCss.html')(),
+          interactivity: 'settlement, capacity, overcapacity, population, established_yyyy_mm_dd, male, female'
         }
     ]
     })
@@ -76,6 +77,8 @@ module.exports = class MapView extends CommonMapView {
     .done((layer)=>{
       this._featureOver(layer.getSubLayer(1));
       this._mouseout(layer.getSubLayer(1));
+      this._featureOver(layer.getSubLayer(2),this._popupHoverSettlementTemplate);
+
     });
     return this;
   }

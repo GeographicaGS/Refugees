@@ -1,33 +1,18 @@
-<%
-  var sum = 0;
-  _.each(rows,function(r){
-    sum += r.total;
-  })
-%>
 <div class="head">
-  <h3>Total incoming</h3>
-  <h4><%=Utils.formatNumber(sum)%></h4>
+  <h3>Total New Arrivals by<br>Country of Origin</h3>
+  <h4><%=Utils.formatNumber(total)%></h4>
 </div>
 <div class="data">
   <div class="row">
     <div class="cell">
-      <h5><%=rows[0].collection_point%></h5>
-      <span><%=Utils.formatNumber(rows[0].total)%></span>
+      <h5>SOUTH SUDAN</h5>
+      <span class="southSudan">-</span>
+      <span class="orange southSudanDate block"></span>
     </div>
     <div class="cell">
-      <h5><%=rows[1].collection_point%></h5>
-      <span><%=Utils.formatNumber(rows[1].total)%></span>
+      <h5>drc</h5>
+      <span class="drc">-</span>
+      <span class="orange drcDate block"></span>
     </div>
   </div>
-  <div class="row">
-    <div class="cell">
-      <h5><%=rows[2].collection_point%></h5>
-      <span><%=Utils.formatNumber(rows[2].total)%></span>
-    </div>
-    <div class="cell">
-      <h5><%=rows[3].collection_point%></h5>
-      <span><%=Utils.formatNumber(rows[3].total)%></span>
-    </div>
-  </div>
-
 </div>
