@@ -6,7 +6,8 @@ var $ = require('jquery'),
   HomeView = require('./settlements/view/HomeView'),
   ArrivalView = require('./arrival/view/HomeView'),
   HostView = require('./hosts/view/HomeView'),
-  SettlementView = require('./settlements/view/HomeView')
+  SettlementView = require('./settlements/view/HomeView'),
+  ActorsView = require('./actors/view/HomeView')
 ;
 
 
@@ -19,7 +20,8 @@ module.exports = class Router extends Backbone.Router {
       '' : 'home',
       'arrival' : 'arrival',
       'host' : 'host',
-      'settlement' : 'settlement'
+      'settlement' : 'settlement',
+      'actor' : 'actor'
     };
     this._bindRoutes();
 
@@ -35,5 +37,8 @@ module.exports = class Router extends Backbone.Router {
   }
   settlement(){
     App.showView(new SettlementView().render());
+  }
+  actor(){
+    App.showView(new ActorsView().render()); 
   }
 };

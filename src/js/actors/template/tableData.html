@@ -1,0 +1,19 @@
+<a class="donwloadCsv" href="<%=csv%>">Download CSV</a>
+<table>
+  <thead>
+    <tr>
+      <td>district</td>
+      <td>country</td>
+      <td>refugees</td>
+    </tr>
+  </thead>
+  <tbody>
+    <%_.each(rows,function(r){%>
+      <tr>
+        <td><%=r.district%></td>
+        <td><%=r.country%></td>
+        <td><%=Utils.formatNumber(r.refugees)%></td>
+      </tr>
+    <%})%>
+  </tbody>
+</table>

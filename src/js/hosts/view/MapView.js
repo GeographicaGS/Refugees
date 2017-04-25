@@ -11,7 +11,7 @@ module.exports = class MapView extends CommonMapView {
   constructor(options){
     super(options);
     this._popupHoverTemplate = require('../template/mapPopup.html');
-    this._popupHoverSettlementTemplate = require('../../settlements/template/mapPopup.html');
+    this._popupHoverSettlementTemplate = require('../template/settlementPopup.html');
     this._legendView = new LegendView();
   }
 

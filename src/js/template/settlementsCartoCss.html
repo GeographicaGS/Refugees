@@ -1,7 +1,19 @@
 #layer {
   marker-width: 12;
   marker-fill-opacity: 1;
-  marker-file: url('https://s3.amazonaws.com/com.cartodb.users-assets.production/production/geointelligence/assets/20170404115910UGD-camp-icon_32.svg');
+  <%if(typeof local !== 'undefined' && local){%>
+    marker-file: url('/img/camp_32.png');
+    [value = 2]{
+      marker-file: url('/img/UGD-transition-center.png');
+    }
+  <%}else{%>
+    marker-file: url('https://s3.amazonaws.com/com.cartodb.users-assets.production/production/geointelligence/assets/20170425102947camp_32.svg');
+    <%if(typeof transitionIcon !== 'undefined' && transitionIcon){%>
+      [settlment_name = 'Nyakabande TC']{
+        marker-file: url('https://s3.amazonaws.com/com.cartodb.users-assets.production/production/geointelligence/assets/20170425102933transition-center.svg');
+      }
+    <%}%>
+  <%}%>
   marker-allow-overlap: true;
 
   [zoom >= 8]{

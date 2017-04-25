@@ -9,6 +9,7 @@ var browserify = require('browserify'),
 
 gulp.task('browserify-debug', function() {
   return browserify('./src/js/App.js', {debug:true, transform: ['node-underscorify']})
+  // .transform("babelify", {presets: ['es2015'], plugins:['transform-object-assign',["transform-es2015-for-of", {"loose": true}]]})
   .bundle()
   .on('error', function(err){console.log(err);this.emit("end");})
   .pipe(source('main.js'))
@@ -16,9 +17,8 @@ gulp.task('browserify-debug', function() {
 });
 
 gulp.task('browserify-production', function() {
-  // return browserify('./src/js/App.js', {transform: ['node-underscorify','babelify']})
   return browserify('./src/js/App.js', {transform: ['node-underscorify']})
-    .transform("babelify", {presets: ['es2015']})
+    .transform("babelify", {presets: ['es2015'], plugins:['transform-object-assign',["transform-es2015-for-of", {"loose": true}]]})
     .bundle()
     .on('error', function(err){console.log(err);this.emit("end");})
     .pipe(source('main.js'))

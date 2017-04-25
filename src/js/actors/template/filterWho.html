@@ -1,0 +1,16 @@
+<h3>who</h3>
+<p>Presence of actors in each settlement</p>
+<div class="filterGroup">
+  <%_.each(collection,function(c){%>
+    <div class="filter">
+      <div class="barLabel">
+        <span class="uppercase ellipsis"><%=c.id%></span>
+        <span><%=c.where.size%></span>
+      </div>
+      <div class="bars">
+        <div class="bar"></div>
+        <div class="barValue"></div>
+      </div>
+    </div>
+  <%})%>
+</div>

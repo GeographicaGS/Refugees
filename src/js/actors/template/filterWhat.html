@@ -1,0 +1,16 @@
+<h3>What</h3>
+<p>Actions carried out by the actors</p>
+<div class="filterGroup">
+  <%_.each(collection,function(c){%>
+    <div class="filter">
+      <div class="barLabel">
+        <span class="ellipsis"><%=c.id.replace(/_/g, ' ')%></span>
+        <span><%=c.who.size%></span>
+      </div>
+      <div class="bars">
+        <div class="bar"></div>
+        <div class="barValue"></div>
+      </div>
+    </div>
+  <%})%>
+</div>

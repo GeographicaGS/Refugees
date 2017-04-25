@@ -12,6 +12,6 @@ module.exports = class SummaryView extends CommonSummaryView {
   constructor(options){
     super(options);
     this._template = require('../template/summary.html');
-    this._query = 'SELECT settlement, capacity, overcapacity FROM map3_settlements_over_time order by capacity DESC';
+    this._query = `SELECT settlement, capacity, overcapacity, to_date(established_yyyy_mm_dd,'DD/MM/YYYY') as date FROM map3_settlements_over_time order by capacity DESC`;
   }
 }

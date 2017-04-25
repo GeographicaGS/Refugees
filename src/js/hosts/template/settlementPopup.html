@@ -4,24 +4,9 @@
   </div>
   <div class="contentPopup">
     <div>
-      <h4>capacity</h4>
-      <span><%=Utils.formatNumber(data.capacity)%></span>
-      <%if(data.overcapacity > 0){%>
-        <span class="orange">+<%=Utils.formatNumber(data.overcapacity/data.capacity * 100)%>%</span>
-      <%}else if(data.overcapacity < 0){%>
-        <span class="green"><%=Utils.formatNumber(data.overcapacity/data.capacity * 100)%>%</span>
-      <%}%>
+      <h4>Current population</h4>
+      <span><%=Utils.formatNumber(data.population)%></span>
       <span></span>
-    </div>
-    <div class="rows">
-      <div>
-        <h4>Current population</h4>
-        <span><%=Utils.formatNumber(data.population)%></span>
-      </div>
-      <div>
-        <h4>Current overcapacity</h4>
-        <span><%=Utils.formatNumber(data.overcapacity)%></span>
-      </div>
     </div>
     <div class="rows">
       <div>

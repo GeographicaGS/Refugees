@@ -136,6 +136,9 @@ module.exports = class DataPanelView extends Backbone.View {
       .attr("y", 0)
     ;
 
+    popupText.append('tspan').attr("class", "first");
+    popupText.append('tspan').attr("class", "second");
+
     svg.selectAll(".interactiveZone").on('mousemove',function() {
 
       svg.attr("class", "active");
@@ -162,7 +165,9 @@ module.exports = class DataPanelView extends Backbone.View {
       circle.classed("active",true);
       circle.transition().duration(300).attr("r","5");
 
-      popupText.html('<tspan class="first">' + Utils.formatNumber(parseInt(circle.attr("value"))) + '</tspan> <tspan> ' + Utils.formatDate(new Date(circle.attr("date"))) + "</tspan>");
+      // popupText.html('<tspan class="first">' + Utils.formatNumber(parseInt(circle.attr("value"))) + '</tspan> <tspan> ' + Utils.formatDate(new Date(circle.attr("date"))) + "</tspan>");
+      popupText.select('.first').text(Utils.formatNumber(parseInt(circle.attr("value"))));
+      popupText.select('.second').text(' ' + Utils.formatDate(new Date(circle.attr("date"))));
       popupText.attr("y", parseFloat(circle.attr("cy")) + 2);
       textLength = popupText.node().getComputedTextLength() + 20;
       popup.attr("y", parseFloat(circle.attr("cy")) - 12);

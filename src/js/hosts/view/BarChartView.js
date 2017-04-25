@@ -1,8 +1,8 @@
 "use strict";
 
 var Config = require('../../config.js'),
-  CommonBarChartView = require('../../view/BarChartView'),
-  Utils = require('../../utils.js')
+  CommonBarChartView = require('../../view/BarChartView')
+  // Utils = require('../../utils.js')
 ;
 
 module.exports = class DataPanelView extends CommonBarChartView {
@@ -19,8 +19,8 @@ module.exports = class DataPanelView extends CommonBarChartView {
     return this;
   }
 
-  _popupText(name,total){
-    return '<tspan class="first">' + name  + ':</tspan> <tspan> ' + Utils.formatNumber(parseFloat(total)) + '</tspan>';
-  }
+  // _popupText(name,total){
+  //   return '<tspan class="first">' + name  + ':</tspan> <tspan> ' + Utils.formatNumber(parseFloat(total)) + '</tspan>';
+  // }
 
 }

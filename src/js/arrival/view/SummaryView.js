@@ -62,10 +62,11 @@ module.exports = class SummaryView extends CommonSummaryView {
   }
 
   _update(date){
-    this.$('.data .drc').text(Utils.formatNumber(this._data['DRC'][`${date.getFullYear()}-${date.toLocaleString('en', {month: '2-digit'})}`]));
+
+    this.$('.data .drc').text(Utils.formatNumber(this._data['DRC'][`${date.getFullYear()}-${("0" + (date.getMonth() + 1)).slice(-2)}`]));
 
     this.$('.data .drcDate').text(Utils.formatDateShortNotDay(date));
-
+    //
     this.$('.data .southSudan').text(Utils.formatNumber(this._data['South Sudan'][`${moment(date).isoWeek()}`]));
     this.$('.data .southSudanDate').text(`${Utils.formatDateShortNotYear(moment().day("Monday").isoWeeks(moment(date).isoWeek()).toDate())} - ${Utils.formatDateShortNotYear(moment().day("Sunday").isoWeeks(moment(date).isoWeek()).toDate())}`);
   }

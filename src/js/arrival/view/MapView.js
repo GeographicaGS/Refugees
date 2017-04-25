@@ -1,6 +1,7 @@
 "use strict";
 
 var d3 = require('d3'),
+  moment = require('moment'),
   Config = require('../../config.js'),
   Utils = require('../../utils.js'),
   CommonMapView = require('../../view/MapView'),
@@ -56,15 +57,18 @@ module.exports = class MapView extends CommonMapView {
       type: 'cartodb',
       sublayers: [
         {
-          sql: `SELECT * FROM map3_settlements_over_time where type!='Refugee transit Centre'`,
+          // sql: `SELECT * FROM map3_settlements_over_time where type!='Refugee transit Centre'`,
+          sql: `SELECT * FROM map3_settlements_over_time`,
           cartocss: `#layer {
             marker-width: 12;
             marker-opacity: 1;
             marker-fill-opacity: 1;
-            marker-file: url('https://s3.amazonaws.com/com.cartodb.users-assets.production/production/geointelligence/assets/20170418082716camp-un_32.svg');
+            marker-file: url('https://s3.amazonaws.com/com.cartodb.users-assets.production/production/geointelligence/assets/20170425105323camp-un_32.svg');
             marker-allow-overlap: true;
 
-
+            [type = 'Refugee transit Centre']{
+              marker-file: url('https://s3.amazonaws.com/com.cartodb.users-assets.production/production/geointelligence/assets/20170425122658UGD-transition-center_un.svg');
+            }
 
             [zoom >= 8]{
           	   marker-width: 16;
@@ -113,15 +117,15 @@ module.exports = class MapView extends CommonMapView {
           interactivity: 'collection_point'
         },
         {
-          sql:`SELECT row_number() OVER() AS cartodb_id, the_geom_webmercator from(
-            SELECT DISTINCT(
+          sql:`SELECT row_number() OVER() AS cartodb_id, settlment_name, the_geom_webmercator from(
+            SELECT settlment_name,
             ST_Transform (
             ST_GeomFromText('POINT(' || long_destination || ' ' || lat_destination || ')',4326)
-            ,3857)
-              ) as the_geom_webmercator
+            ,3857) as the_geom_webmercator
             FROM map2_daily_arrivals WHERE long_origin is not null and lat_origin is not null and long_destination is not null and lat_destination is not null and date_yyyy_mm_dd is not null
+            GROUP BY settlment_name,long_origin,lat_origin,long_destination,lat_destination
            ) as points`,
-          cartocss:require('../../template/settlementsCartoCss.html')()
+          cartocss:require('../../template/settlementsCartoCss.html')({transitionIcon:true})
         }
     ]
     })
@@ -208,15 +212,16 @@ module.exports = class MapView extends CommonMapView {
 
             this.trigger('date:change',{date: date});
 
-
             this._currentDate = date;
-            let dateText = `${this._currentDate.toLocaleString('en', {weekday: 'short' })} ${this._currentDate.toLocaleString('en', {month: 'short' })} ${this._currentDate.toLocaleString('en', {day: '2-digit'})} ${this._currentDate.toLocaleString('en', {year: 'numeric'})}`
+            // let dateText = `${this._currentDate.toLocaleString('en', {weekday: 'short' })} ${this._currentDate.toLocaleString('en', {month: 'short' })} ${this._currentDate.toLocaleString('en', {day: '2-digit'})} ${this._currentDate.toLocaleString('en', {year: 'numeric'})}`
+            let dateText = `${moment(this._currentDate).format('ddd')} ${moment(this._currentDate).format('MMM')} ${moment(this._currentDate).format('DD')} ${moment(this._currentDate).format('YYYY')}`;
+            let circle = d3.selectAll('circle[date^="' + dateText + '"]');
             if(d3.selectAll('.guideTime').node())
               d3.selectAll('.guideTime')
                 .transition()
                 .duration(Math.floor((this._torqueDuration/this._distinctDates)*1000))
                 .ease(d3.easeLinear)
-                .attr('transform', 'translate(' + d3.selectAll('circle[date^="' + dateText + '"]').attr('cx') +')');
+                .attr('transform', 'translate(' + (circle.node() ? circle.attr('cx'):0) +')');
 
           }
         }

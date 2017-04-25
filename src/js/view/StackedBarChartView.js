@@ -118,6 +118,9 @@ module.exports = class StackedBarChartView extends Backbone.View {
       .attr("y", 0)
     ;
 
+    popupText.append('tspan').attr("class", "first");
+    popupText.append('tspan').attr("class", "second");
+
     let texts = this.$('.xaxis text'),
       maxTextWidth = width/texts.length;
     for(var i=0; i<texts.length; i++){
@@ -126,7 +129,9 @@ module.exports = class StackedBarChartView extends Backbone.View {
         originalText = text;
       while (textLength > (maxTextWidth - 2) && text.length > 0) {
         text = text.slice(0, -1);
-        d3.select(texts[i]).html(`${text}...<title>${originalText}</title>`);
+        // d3.select(texts[i]).html(`${text}...<title>${originalText}</title>`);
+        d3.select(texts[i]).text(`${text}...`);
+        d3.select(texts[i]).append('title').text(originalText)
         textLength = texts[i].getComputedTextLength();
       }
     }
@@ -141,7 +146,9 @@ module.exports = class StackedBarChartView extends Backbone.View {
         textLength
       ;
 
-      popupText.html('<tspan class="first">' + $(this).attr('name')  + ':</tspan> <tspan> ' + Utils.formatNumber(parseFloat($(this).attr("total"))) + "</tspan>");
+      // popupText.html('<tspan class="first">' + $(this).attr('name')  + ':</tspan> <tspan> ' + Utils.formatNumber(parseFloat($(this).attr("total"))) + "</tspan>");
+      popupText.select('.first').text($(this).attr('name'));
+      popupText.select('.second').text(' ' + Utils.formatNumber(parseFloat($(this).attr("total"))));
       popupText.attr("y", y + 2);
       textLength = popupText.node().getComputedTextLength() + 20;
       popup.attr("y", y - 12);

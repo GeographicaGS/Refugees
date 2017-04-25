@@ -1,7 +1,8 @@
 "use strict";
 
 var Backbone = require('backbone'),
-  d3 = require('d3')
+  d3 = require('d3'),
+  Utils = require('../utils.js')
 ;
 
 module.exports = class DataPanelView extends Backbone.View {
@@ -96,6 +97,9 @@ module.exports = class DataPanelView extends Backbone.View {
       .attr("y", 0)
     ;
 
+    popupText.append('tspan').attr("class", "first");
+    popupText.append('tspan').attr("class", "second");
+
     let that = this;
 
     svg.selectAll(".barPath").on('mousemove',function() {
@@ -107,7 +111,10 @@ module.exports = class DataPanelView extends Backbone.View {
         y = d3.mouse(this)[1],
         textLength
       ;
-      popupText.html(that._popupText($(this).attr('name'),$(this).attr("total")));
+      // popupText.html(that._popupText($(this).attr('name'),$(this).attr("total")));
+      popupText.select('.first').text($(this).attr('name'));
+      popupText.select('.second').text(' ' + Utils.formatNumber(parseFloat($(this).attr("total"))));
+
       popupText.attr("y", y + 2);
       textLength = popupText.node().getComputedTextLength() + 20;
       popup.attr("y", y - 12);
@@ -129,9 +136,9 @@ module.exports = class DataPanelView extends Backbone.View {
 
   }
 
-  _popupText(name,total){
-    console.log('Function missing')
-    return null;
-  }
+  // _popupText(name,total){
+  //   console.log('Function missing')
+  //   return null;
+  // }
 
 }

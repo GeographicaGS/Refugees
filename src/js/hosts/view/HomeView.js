@@ -19,7 +19,7 @@ module.exports = class HomeView extends CommonHomeView {
       let minDate, maxDate;
       for(var d of data.rows){
         // var date = new Date('2000-' + d.month_year);
-        var date = new Date('2000-' + d.month_year.replace('-', ' '));
+        var date = new Date('2000/' + d.month_year.replace('-', '/'));
         if(!minDate || date < minDate)
           minDate = date
         if(!maxDate || date > maxDate)
