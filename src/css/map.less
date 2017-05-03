@@ -1,3 +1,24 @@
+.miniMapPopup{
+	font-size: 10px;
+	background-color: @black;
+	color:@white;
+	display: flex;
+	justify-content: center;
+	border-radius: 2px;
+	padding: 3px;
+	transition: opacity .25s linear;
+	opacity: 1;
+	text-transform: uppercase;
+	&.hidden{
+		transition: opacity .25s linear, transform .25s linear;
+		opacity: 0 !important;
+		transition-delay: 1s;
+		transform: translateY(10px);
+	}
+	&.translate{
+		transform: translateY(100%);
+	}
+}
 .mapPopup{
 	overflow: hidden;
 	background-color: @black;
@@ -132,10 +153,17 @@
 			&+li{
 				border-top: 1px solid @grey;
 			}
+			&.about{
+				justify-content: flex-end;
+				color:@orange;
+			}
 			img{
 				width: 24px;
 				height: 24px;
 				margin-right: 10px;
+			}
+			.legendnote{
+				font-size: 10px;
 			}
 		}
 	}

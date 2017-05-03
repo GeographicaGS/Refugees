@@ -1,7 +1,12 @@
 <%
-  var sum = 0;
+  var sum = 0,
+  others = 0;
+  ;
   _.each(rows,function(r){
     sum += r.total;
+    if(r.country != 'South Sudan' && r.country != 'DR_Congo' && r.country != 'Burundi' && r.country != 'Somalia'){
+      others += r.total;
+    }
   })
 %>
 <div class="head">
@@ -11,22 +16,28 @@
 <div class="data">
   <div class="row">
     <div class="cell">
-      <h5><%=rows[0].country%></h5>
-      <span><%=Utils.formatNumber(rows[0].total)%></span>
+      <h5>South Sudan</h5>
+      <span><%=Utils.formatNumber(_.findWhere(rows, {country: "South Sudan"}).total)%></span>
     </div>
     <div class="cell">
-      <h5><%=rows[1].country%></h5>
-      <span><%=Utils.formatNumber(rows[1].total)%></span>
+      <h5>DR_Congo</h5>
+      <span><%=Utils.formatNumber(_.findWhere(rows, {country: "DR_Congo"}).total)%></span>
+    </div>
+    <div class="cell">
+      <h5>Burundi</h5>
+      <span><%=Utils.formatNumber(_.findWhere(rows, {country: "Burundi"}).total)%></span>
     </div>
   </div>
   <div class="row">
-    <div class="cell">
-      <h5><%=rows[2].country%></h5>
-      <span><%=Utils.formatNumber(rows[2].total)%></span>
-    </div>
-    <div class="cell">
-      <h5><%=rows[3].country%></h5>
-      <span><%=Utils.formatNumber(rows[3].total)%></span>
+    <div class="cell" style="display:flex;">
+      <div style="flex:0 1 108px;">
+        <h5>Somalia</h5>
+        <span><%=Utils.formatNumber(_.findWhere(rows, {country: "Somalia"}).total)%></span>
+      </div>
+      <div>
+        <h5>Others</h5>
+        <span class="southSudan"><%=Utils.formatNumber(others)%></span>
+      </div>
     </div>
   </div>
 

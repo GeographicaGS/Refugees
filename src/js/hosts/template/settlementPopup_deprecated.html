@@ -3,11 +3,14 @@
     <h3><%=data.settlement%></h3>
   </div>
   <div class="contentPopup">
+    <%if(data.population && data.population!=''){%>
     <div>
       <h4>Current population</h4>
       <span><%=Utils.formatNumber(data.population)%></span>
       <span></span>
     </div>
+    <%}%>
+    <%if(data.male && data.male!='' && data.female && data.female!=''){%>
     <div class="rows">
       <div>
         <h4>Males</h4>
@@ -18,6 +21,7 @@
         <span><%=Utils.formatNumber(data.female)%></span>
       </div>
     </div>
+    <%}%>
     <div>
       <h4>Established</h4>
       <%

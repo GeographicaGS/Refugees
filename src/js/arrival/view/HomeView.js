@@ -53,7 +53,7 @@ module.exports = class HomeView extends CommonHomeView {
   }
 
   _getDateRange(query){
-    let sql = new cartodb.SQL({ user: Config.cartoUser });
+    let sql = new cartodb.SQL({ user: Config.cartoUser, protocol:'https' });
     sql.execute(query)
     .done((data)=>{
       this.$('.loading').remove();
@@ -67,7 +67,11 @@ module.exports = class HomeView extends CommonHomeView {
 
   _loadDateTitles(data){
     this.$('.title .date').text(`${Utils.formatDateShort(new Date(data.start))} >> ${Utils.formatDateShort(new Date(data.finish))}`);
-    this.$('.dataPanel .header h4 span').text(`${Utils.formatDateShortNotDay(new Date(data.start))} - ${Utils.formatDateShortNotDay(new Date(data.finish))}`);
+    if((new Date(data.finish) - new Date(data.start))/((24 * 60 * 60 * 1000)) <= 6){
+      this.$('.dataPanel .header h4 span').text('last week times');
+    }else{
+      this.$('.dataPanel .header h4 span').text(`${Utils.formatDateShortNotDay(new Date(data.start))} - ${Utils.formatDateShortNotDay(new Date(data.finish))}`);
+    }
   }
 
 }

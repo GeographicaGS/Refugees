@@ -28,9 +28,9 @@ module.exports = class DataPanelView extends Backbone.View {
       maxWidth
     ;
 
-    svg.append("text").text(maxLabel).each(function() { console.log(this.getBBox().width); maxWidth = Math.ceil(this.getBBox().width) + 10; }).remove()
+    svg.append("text").text(maxLabel).each(function() {maxWidth = Math.ceil(this.getBBox().width) + 10; }).remove()
 
-    let margin = {top: 20, right: maxWidth, bottom: 30, left: maxWidth},
+    let margin = {top: 20, right: (maxWidth+15), bottom: 30, left: maxWidth},
       minDate,
       maxDate,
       width = Math.floor(parent.width()) - margin.left - margin.right,
@@ -80,6 +80,30 @@ module.exports = class DataPanelView extends Backbone.View {
       .attr("stroke-linecap", "round")
       .attr("stroke-width", 2)
       .attr("d", line);
+
+    let avg = 0;
+    for(var d of data){
+      avg += d.total;
+    }
+    avg /= data.length;
+    let avgLine = d3.line().curve(d3.curveMonotoneX).x(function(d) { return x(d.date); }).y(function(){ return y(avg); })
+    g.append("path")
+      .datum(data)
+      .attr("class", "linePath blue")
+      .attr("fill", "none")
+      .attr("stroke-linejoin", "round")
+      .attr("stroke-linecap", "round")
+      .attr("stroke-dasharray","20")
+      .attr("stroke-width", 1)
+      .attr("d", avgLine)
+    ;
+
+    g.append("text")
+      .attr('class', 'blue bold')
+      .attr("x", x(data[data.length-1].date) + 10)
+      .attr("y", y(avg) + 3)
+      .text(Utils.formatNumber(avg,2))
+    ;
 
     let totalLength = linePath.node().getTotalLength();
     linePath
@@ -165,7 +189,7 @@ module.exports = class DataPanelView extends Backbone.View {
       circle.classed("active",true);
       circle.transition().duration(300).attr("r","5");
 
-      // popupText.html('<tspan class="first">' + Utils.formatNumber(parseInt(circle.attr("value"))) + '</tspan> <tspan> ' + Utils.formatDate(new Date(circle.attr("date"))) + "</tspan>");
+      // // popupText.html('<tspan class="first">' + Utils.formatNumber(parseInt(circle.attr("value"))) + '</tspan> <tspan> ' + Utils.formatDate(new Date(circle.attr("date"))) + "</tspan>");
       popupText.select('.first').text(Utils.formatNumber(parseInt(circle.attr("value"))));
       popupText.select('.second').text(' ' + Utils.formatDate(new Date(circle.attr("date"))));
       popupText.attr("y", parseFloat(circle.attr("cy")) + 2);

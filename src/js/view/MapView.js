@@ -50,15 +50,20 @@ module.exports = class MapView extends Backbone.View {
     this.map = new L.Map(this.$el[0], {
       zoomControl : false,
       scrollWheelZoom: true
-    }).setView([1.372598,30.0537566], 7);
+    }).setView([1.372598,32.582520], 7);
 
-    L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_nolabels/{z}/{x}/{y}.png', {
-        //  attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, &copy;<a href="https://carto.com/attribution">CARTO</a>'
-      }).addTo(this.map);
+    // L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_nolabels/{z}/{x}/{y}.png', {
+    //     //  attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, &copy;<a href="https://carto.com/attribution">CARTO</a>'
+    //   }).addTo(this.map);
+    //
+    // this._labelLayer = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_only_labels/{z}/{x}/{y}.png', {
+    //   }).addTo(this.map);
 
-    this._labelLayer = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_only_labels/{z}/{x}/{y}.png', {
-      }).addTo(this.map);
+    // L.tileLayer('https://api.mapbox.com/styles/v1/gecko/cj1c3beu800dc2rqmm4fjrwh4/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZ2Vja28iLCJhIjoidktzSXNiVSJ9.NyDfX4V8ETtONgPKIeQmvw', {
+    // }).addTo(this.map);
 
+    L.tileLayer('https://api.mapbox.com/styles/v1/gecko/cj27rw7wy001w2rmzx0qdl0ek/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZ2Vja28iLCJhIjoidktzSXNiVSJ9.NyDfX4V8ETtONgPKIeQmvw', {
+    }).addTo(this.map);
 
     new L.Control.Zoom({ position: 'topright' }).addTo(this.map);
 

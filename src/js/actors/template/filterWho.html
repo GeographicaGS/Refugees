@@ -2,10 +2,10 @@
 <p>Presence of actors in each settlement</p>
 <div class="filterGroup">
   <%_.each(collection,function(c){%>
-    <div class="filter">
+    <div id="<%=c.id%>" class="filter active">
       <div class="barLabel">
         <span class="uppercase ellipsis"><%=c.id%></span>
-        <span><%=c.where.size%></span>
+        <span><%=c.settlements.size%></span>
       </div>
       <div class="bars">
         <div class="bar"></div>

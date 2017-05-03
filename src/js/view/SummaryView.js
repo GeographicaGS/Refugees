@@ -12,7 +12,7 @@ module.exports = class SummaryView extends Backbone.View {
   }
 
   render() {
-    let sql = new cartodb.SQL({ user: Config.cartoUser });
+    let sql = new cartodb.SQL({ user: Config.cartoUser, protocol:'https' });
     sql.execute(this._query)
     .done((data)=>{
       this.$el.html(this._template({rows:data.rows, Utils:Utils}));

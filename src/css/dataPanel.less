@@ -31,9 +31,18 @@
         font-size: 12px;
         fill:@black;
         font-weight: 300;
+        &.blue{
+          fill:@blue;
+        }
+        &.bold{
+          font-weight: 700;
+        }
       }
       .linePath{
         stroke:@orange;
+        &.blue{
+          stroke:@blue;
+        }
       }
       .barPath{
         fill:@orange;
@@ -42,6 +51,9 @@
         fill:transparent;
         &.active{
           fill: @orange;
+          &.blue{
+            fill: @blue;
+          }
         }
       }
       .grid{

@@ -11,6 +11,9 @@
       }
     }
     .splitControl{
+      // position: fixed;
+      // top: initial;
+      // bottom: 9px;
       transform: translateX(-50%) rotate(0);
     }
   }
@@ -46,9 +49,10 @@
   .tabs.range{
     position: absolute;
     top:30px;
-    left: 50%;
+    // left: 50%;
+    right: @marginHomeRight;
     z-index: 1;
-    transform: translateX(-50%);
+    // transform: translateX(-50%);
   }
   .title{
     position: absolute;
@@ -76,7 +80,7 @@
   }
   .summary{
     position: absolute;
-    top: 216px;
+    top: 203px;
     left: @marginHomeLeft;
     z-index: 1;
   }

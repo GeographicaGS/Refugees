@@ -24,10 +24,10 @@ module.exports = class DataPanelView extends Backbone.View {
 
     let svg = d3.select(this.$('svg')[0]),
       maxLabel = d3.max(data, function(d) { return d.total; }),
-      maxWidth
+      maxWidth = 0
     ;
 
-    svg.append("text").text(maxLabel).each(function() { maxWidth = Math.ceil(this.getBBox().width) + 10; }).remove()
+    // svg.append("text").text(maxLabel).each(function() { maxWidth = Math.ceil(this.getBBox().width) + 10; }).remove()
 
     let margin = {top: 20, right: maxWidth, bottom: 30, left: maxWidth},
       minDate,
@@ -58,10 +58,10 @@ module.exports = class DataPanelView extends Backbone.View {
       .attr("text-anchor", "end")
       ;
 
-    g.append("g")
-      .call(d3.axisLeft(y).ticks(5).tickSize(0))
-      .select(".domain")
-      .remove();
+    // g.append("g")
+    //   .call(d3.axisLeft(y).ticks(5).tickSize(0))
+    //   .select(".domain")
+    //   .remove();
 
     g.selectAll(".bar")
       .data(data)
@@ -80,6 +80,21 @@ module.exports = class DataPanelView extends Backbone.View {
   			.delay(function (d, i) {return i * 50;})
         .attr("y", function(d) { return y(d.total); })
         .attr("height", function(d) { return height - y(d.total); })
+    ;
+
+    g.selectAll(".textbar")
+      .data(data)
+      .enter().append("text")
+        .attr("x", function(d) { return x(d.name) + x.bandwidth()/2 })
+        .attr("y", height)
+        .attr("text-anchor", "middle")
+        .style('opacity',0)
+        .text(function(d){return Utils.formatNumber(d.total);})
+        .transition()
+  			.duration(250)
+  			.delay(function (d, i) {return i * 50;})
+        .attr("y", function(d) { return y(d.total) - 5; })
+        .style('opacity',1)
     ;
 
     let popup = g.append('rect')

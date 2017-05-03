@@ -1,22 +1,47 @@
 <%
-  var sum = 0;
+
+  var sum = 0,
+    totals ={}
+  ;
+  totals['Burundi'] = '-';
+  totals['South Sudan'] = '-';
+  totals['Others'] = '-';
+  totals['DRC'] = '-';
+  totals['Somalia'] = '-';
   _.each(rows,function(r){
     sum += r.total;
+    totals[r.source] = Utils.formatNumber(r.total);
   })
 %>
 <div class="head">
-  <h3>Total New Arrivals by country of origin</h3>
+  <h3>Total New Arrivals</h3>
   <h4><%=Utils.formatNumber(sum)%></h4>
 </div>
 <div class="data">
   <div class="row">
     <div class="cell">
-      <h5><%=rows[0].source%></h5>
-      <span><%=Utils.formatNumber(rows[0].total)%></span>
+      <h5>SOUTH SUDAN</h5>
+      <span class="southSudan"><%=totals['South Sudan']%></span>
     </div>
     <div class="cell">
-      <h5><%=rows[1].source%></h5>
-      <span><%=Utils.formatNumber(rows[1].total)%></span>
+      <h5>drc</h5>
+      <span class="drc"><%=totals['DRC']%></span>
+    </div>
+    <div class="cell">
+      <h5>Burundi</h5>
+      <span class="burundi"><%=totals['Burundi']%></span>
+    </div>
+  </div>
+  <div class="row">
+    <div class="cell" style="display:flex;">
+      <div style="flex:0 1 128px;">
+        <h5>Somalia</h5>
+        <span class="southSudan"><%=totals['Somalia']%></span>
+      </div>
+      <div>
+        <h5>Others</h5>
+        <span class="southSudan"><%=totals['Others']%></span>
+      </div>
     </div>
   </div>
 

@@ -4,28 +4,30 @@
     sum += r.capacity;
   })
 %>
-<div class="head">
-  <h3>Total capacity</h3>
-  <h4><%=Utils.formatNumber(sum)%></h4>
+<div class="head reduced">
+  <h3>Date of Establishment</h3>
+  <!-- <h4><%=Utils.formatNumber(sum)%></h4> -->
 </div>
 <div class="data">
   <div class="row">
     <div class="cell">
-      <h5><%=rows[0].settlement%></h5>
+      <h5><%=rows[0].label%></h5>
       <span><%=Utils.formatNumber(rows[0].capacity)%></span>
-      <span class="orange"><%=Utils.formatDateShort(rows[0].date)%></span>
+      <span><%=Utils.formatNumber(rows[0].population)%></span><br>
+      <span class="orange block"><%=Utils.formatDateShort(rows[0].date)%></span>
       <%//if(rows[0].overcapacity > 0){%>
-        <!-- <span class="orange">+<%=Utils.formatNumber((rows[0].overcapacity/rows[0].capacity) * 100,2)%>%</span> -->
+        <!-- <span class="orange block">+<%=Utils.formatNumber((rows[0].overcapacity/rows[0].capacity) * 100,2)%>%</span> -->
       <%//}else if(rows[0].overcapacity < 0){%>
         <!-- <span class="green"><%=Utils.formatNumber((rows[0].overcapacity/rows[0].capacity) * 100,2)%>%</span> -->
       <%//}%>
     </div>
     <div class="cell">
-      <h5><%=rows[1].settlement%></h5>
+      <h5><%=rows[1].label%></h5>
       <span><%=Utils.formatNumber(rows[1].capacity)%></span>
-      <span class="orange"><%=Utils.formatDateShort(rows[1].date)%></span>
+      <span><%=Utils.formatNumber(rows[1].population)%></span><br>
+      <span class="orange block"><%=Utils.formatDateShort(rows[1].date)%></span>
       <%//if(rows[1].overcapacity > 0){%>
-        <!-- <span class="orange">+<%=Utils.formatNumber((rows[1].overcapacity/rows[1].capacity) * 100,2)%>%</span> -->
+        <!-- <span class="orange block">+<%=Utils.formatNumber((rows[1].overcapacity/rows[1].capacity) * 100,2)%>%</span> -->
       <%//}else if(rows[1].overcapacity < 0){%>
         <!-- <span class="green"><%=Utils.formatNumber((rows[1].overcapacity/rows[1].capacity) * 100,2)%>%</span> -->
       <%//}%>
@@ -33,21 +35,23 @@
   </div>
   <div class="row">
     <div class="cell">
-      <h5><%=rows[2].settlement%></h5>
+      <h5><%=rows[2].label%></h5>
       <span><%=Utils.formatNumber(rows[2].capacity)%></span>
-      <span class="orange"><%=Utils.formatDateShort(rows[2].date)%></span>
+      <span><%=Utils.formatNumber(rows[2].population)%></span><br>
+      <span class="orange block"><%=Utils.formatDateShort(rows[2].date)%></span>
       <%//if(rows[2].overcapacity > 0){%>
-        <!-- <span class="orange">+<%=Utils.formatNumber((rows[2].overcapacity/rows[2].capacity) * 100,2)%>%</span> -->
+        <!-- <span class="orange block">+<%=Utils.formatNumber((rows[2].overcapacity/rows[2].capacity) * 100,2)%>%</span> -->
       <%//}else if(rows[2].overcapacity < 0){%>
         <!-- <span class="green"><%=Utils.formatNumber((rows[2].overcapacity/rows[2].capacity) * 100,2)%>%</span> -->
       <%//}%>
     </div>
     <div class="cell">
-      <h5><%=rows[3].settlement%></h5>
+      <h5><%=rows[3].label%></h5>
       <span><%=Utils.formatNumber(rows[3].capacity)%></span>
-      <span class="orange"><%=Utils.formatDateShort(rows[3].date)%></span>
+      <span><%=Utils.formatNumber(rows[3].population)%></span><br>
+      <span class="orange block"><%=Utils.formatDateShort(rows[3].date)%></span>
       <%//if(rows[3].overcapacity > 0){%>
-        <!-- <span class="orange">+<%=Utils.formatNumber((rows[3].overcapacity/rows[3].capacity) * 100,2)%>%</span> -->
+        <!-- <span class="orange block">+<%=Utils.formatNumber((rows[3].overcapacity/rows[3].capacity) * 100,2)%>%</span> -->
       <%//}else if(rows[3].overcapacity < 0){%>
         <!-- <span class="green"><%=Utils.formatNumber((rows[3].overcapacity/rows[3].capacity) * 100,2)%>%</span> -->
       <%//}%>

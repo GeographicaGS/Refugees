@@ -11,8 +11,13 @@ var CommonHomeView = require('../../view/HomeView'),
 
 module.exports = class HomeView extends CommonHomeView {
 
+  constructor(options){
+    super(options);
+    this._region = options.region;
+  }
+
   render() {
-    let sql = new cartodb.SQL({ user: Config.cartoUser });
+    let sql = new cartodb.SQL({ user: Config.cartoUser, protocol:'https' });
     sql.execute('SELECT distinct(month_year) FROM map1_host_and_refugees where month_year is not null and month_year!=\'\'')
     .done((data)=>{
 
@@ -33,7 +38,7 @@ module.exports = class HomeView extends CommonHomeView {
     })
 
     this.$el.html(template());
-    this._mapView = new MapView({el:this.$('#map')});
+    this._mapView = new MapView({el:this.$('#map'),region:this._region});
     _.defer(()=>{this._mapView.render();});
     this._summaryView = new SummaryView();
     this.$el.append(this._summaryView.render().$el);

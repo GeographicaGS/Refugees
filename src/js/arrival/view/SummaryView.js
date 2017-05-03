@@ -11,7 +11,7 @@ module.exports = class SummaryView extends CommonSummaryView {
 
   className(){
     // return 'summary width400';
-    return 'summary';
+    return 'summary width400';
   }
 
   constructor(options){
@@ -46,12 +46,15 @@ module.exports = class SummaryView extends CommonSummaryView {
       super.render();
     }else{
       this._template = require('../template/summary.html');
-      let sql = new cartodb.SQL({ user: Config.cartoUser });
+      let sql = new cartodb.SQL({ user: Config.cartoUser, protocol:'https' });
       sql.execute(this._query)
       .done((data)=>{
         let total = _.reduce(data.rows, function(memo, obj){ return memo + obj.total; }, 0);
         this._data = _.groupBy(data.rows, function(d){ return d.source;});
         this._data['DRC'] = this._groupByMonth(this._data['DRC']);
+        this._data['Burundi'] = this._groupByMonth(this._data['Burundi']);
+        this._data['Somalia'] = this._groupByMonth(this._data['Somalia']);
+        this._data['Others'] = this._groupByMonth(this._data['Others']);
         this._data['South Sudan'] = this._groupByWeek(this._data['South Sudan'],7);
         this.$el.html(this._template({total:total, Utils:Utils}));
       })
@@ -62,13 +65,40 @@ module.exports = class SummaryView extends CommonSummaryView {
   }
 
   _update(date){
+    let data;
+    if(this._data){
 
-    this.$('.data .drc').text(Utils.formatNumber(this._data['DRC'][`${date.getFullYear()}-${("0" + (date.getMonth() + 1)).slice(-2)}`]));
+      this.$('.data .drc').text('-');
+      this.$('.data .burundi').text('-');
+      this.$('.data .somalia').text('-');
+      this.$('.data .southSudan').text('-');
+      this.$('.data .others').text('-');
 
-    this.$('.data .drcDate').text(Utils.formatDateShortNotDay(date));
-    //
-    this.$('.data .southSudan').text(Utils.formatNumber(this._data['South Sudan'][`${moment(date).isoWeek()}`]));
-    this.$('.data .southSudanDate').text(`${Utils.formatDateShortNotYear(moment().day("Monday").isoWeeks(moment(date).isoWeek()).toDate())} - ${Utils.formatDateShortNotYear(moment().day("Sunday").isoWeeks(moment(date).isoWeek()).toDate())}`);
+      data = (this._data['DRC'][`${date.getFullYear()}-${("0" + (date.getMonth() + 1)).slice(-2)}`])/2;
+      this.$('.data .drc').text(Utils.formatNumber(data));
+      if(data)
+        this.$('.data .drcDate').text(Utils.formatDateShortNotDay(date));
+
+      data = (this._data['Burundi'][`${date.getFullYear()}-${("0" + (date.getMonth() + 1)).slice(-2)}`])/2;
+      this.$('.data .burundi').text(Utils.formatNumber(data));
+      if(data)
+        this.$('.data .burundiDate').text(Utils.formatDateShortNotDay(date));
+
+      data = this._data['Somalia'][`${date.getFullYear()}-${("0" + (date.getMonth() + 1)).slice(-2)}`];
+      this.$('.data .somalia').text(Utils.formatNumber(data));
+      if(data)
+        this.$('.data .somaliaDate').text(Utils.formatDateShortNotDay(date));
+
+      data = this._data['South Sudan'][`${moment(date).isoWeek()}`];
+      this.$('.data .southSudan').text(Utils.formatNumber(data));
+      if(data)
+        this.$('.data .southSudanDate').text(`${Utils.formatDateShortNotYear(moment().day("Monday").isoWeeks(moment(date).isoWeek()).toDate())} - ${Utils.formatDateShortNotYear(moment().day("Sunday").isoWeeks(moment(date).isoWeek()).toDate())}`);
+
+      data = this._data['Others'][`${date.getFullYear()}-${("0" + (date.getMonth() + 1)).slice(-2)}`];
+      this.$('.data .others').text(Utils.formatNumber(data));
+      if(data)
+        this.$('.data .othersDate').text(Utils.formatDateShortNotDay(date));
+    }
   }
 
   _isWeek(){

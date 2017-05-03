@@ -21,36 +21,36 @@ module.exports = class MapView extends CommonMapView {
 
   render() {
     super.render();
-
+    this.$('.leaflet-control-zoom').closest('.leaflet-top.leaflet-right').addClass('middel')
     this.$el.append(this._legendView.render().$el);
 
-    let sql = new cartodb.SQL({ user: Config.cartoUser });
+    let sql = new cartodb.SQL({ user: Config.cartoUser, protocol:'https' });
     sql.execute(`SELECT
                 (SELECT COUNT(*) FROM (SELECT distinct(date_yyyy_mm_dd::date) FROM map2_daily_arrivals) as dates WHERE date_yyyy_mm_dd is not null) as distinctdates,
                 (SELECT ST_Extent (DISTINCT(ST_GeomFromText('LINESTRING(' || long_origin || ' ' || lat_origin || ',' || long_destination || ' ' || lat_destination || ')',4326)))FROM map2_daily_arrivals WHERE long_origin is not null and lat_origin is not null and long_destination is not null and lat_destination is not null and date_yyyy_mm_dd is not null) as bbox`)
     .done((data)=>{
       this._distinctDates = data.rows[0].distinctdates;
       this._torqueDuration = Math.ceil((this._distinctDates * 60) / 79);
-      let bbox = data.rows[0].bbox.replace('BOX','').replace('(','').replace(')','').split(',');
-      // this.map.fitBounds(L.latLngBounds(bbox[0].split(' ').reverse(),bbox[1].split(' ').reverse()),{paddingTopLeft:[340,0]});
-      this.map.fitBounds(L.latLngBounds(bbox[0].split(' ').reverse(),bbox[1].split(' ').reverse()),{paddingTopLeft:[0,40]});
+      this.map.setView(Config.northCoords, Config.northZoom);
+      // let bbox = data.rows[0].bbox.replace('BOX','').replace('(','').replace(')','').split(',');
+      // this.map.fitBounds(L.latLngBounds(bbox[0].split(' ').reverse(),bbox[1].split(' ').reverse()),{paddingTopLeft:[0,40]});
       this.renderTorque();
     })
     .error((errors)=>{
       console.log("errors:" + errors);
     })
 
-    cartodb.createLayer(this.map, {
-      user_name: Config.cartoUser,
-      type: 'cartodb',
-      sublayers: [
-        this._ugandaLayer
-    ]
-    })
-    .addTo(this.map)
-    .done((layer)=>{
-      layer.setZIndex(2);
-    });
+    // cartodb.createLayer(this.map, {
+    //   user_name: Config.cartoUser,
+    //   type: 'cartodb',
+    //   sublayers: [
+    //     this._ugandaLayer
+    // ]
+    // })
+    // .addTo(this.map)
+    // .done((layer)=>{
+    //   layer.setZIndex(2);
+    // });
 
     cartodb.createLayer(this.map, {
       user_name: Config.cartoUser,
@@ -58,9 +58,9 @@ module.exports = class MapView extends CommonMapView {
       sublayers: [
         {
           // sql: `SELECT * FROM map3_settlements_over_time where type!='Refugee transit Centre'`,
-          sql: `SELECT * FROM map3_settlements_over_time`,
+          sql: `SELECT * FROM map3_settlements_over_time where type!='Border Point'`,
           cartocss: `#layer {
-            marker-width: 12;
+            marker-width: 0.1;
             marker-opacity: 1;
             marker-fill-opacity: 1;
             marker-file: url('https://s3.amazonaws.com/com.cartodb.users-assets.production/production/geointelligence/assets/20170425105323camp-un_32.svg');
@@ -69,21 +69,34 @@ module.exports = class MapView extends CommonMapView {
             [type = 'Refugee transit Centre']{
               marker-file: url('https://s3.amazonaws.com/com.cartodb.users-assets.production/production/geointelligence/assets/20170425122658UGD-transition-center_un.svg');
             }
+            [type='Refugee transit centre']{
+              marker-file: url('https://s3.amazonaws.com/com.cartodb.users-assets.production/production/geointelligence/assets/20170425122658UGD-transition-center_un.svg');
+            }
+            [type='Reception centre']{
+              marker-file: url('https://s3.amazonaws.com/com.cartodb.users-assets.production/production/geointelligence/assets/20170425122658UGD-transition-center_un.svg');
+            }
+            [type='Collection point']{
+              marker-file: url('https://s3.amazonaws.com/com.cartodb.users-assets.production/production/geointelligence/assets/20170425122658UGD-transition-center_un.svg');
+            }
+            [type='Border Point']{
+              marker-file: url('https://s3.amazonaws.com/com.cartodb.users-assets.production/production/geointelligence/assets/20170426152520UGD-border-point_un.svg');
+            }
 
-            [zoom >= 8]{
-          	   marker-width: 16;
+            [zoom >= 9]{
+              marker-width: 16;
             }
             [zoom >= 10]{
-          	marker-width: 24;
-          	}
+              marker-width: 24;
+            }
             [zoom >= 12]{
-          	marker-width: 32;
-          	}
-          }`,
+              marker-width: 32;
+            }
+          }
+          `,
           interactivity: 'settlement'
         },
         {
-          sql: `SELECT row_number() OVER() AS cartodb_id, collection_point, the_geom_webmercator from(
+          sql: `SELECT row_number() OVER() AS cartodb_id, collection_point, 'Collection point' as type, the_geom_webmercator from(
             SELECT collection_point,
             ST_Transform (
             ST_SetSRID(ST_GeomFromText('POINT(' || long_origin || ' ' || lat_origin || ')'),4326)
@@ -91,33 +104,34 @@ module.exports = class MapView extends CommonMapView {
             FROM map2_daily_arrivals WHERE long_origin is not null and lat_origin is not null and long_destination is not null and lat_destination is not null and date_yyyy_mm_dd is not null
             GROUP BY long_origin,lat_origin,long_destination,lat_destination,collection_point
            ) as points`,
-          cartocss: `#layer {
-            marker-width: 6;
-            marker-fill: #fff;
-            marker-fill-opacity: 1;
-            marker-allow-overlap: true;
-            marker-line-width: 1.25;
-            marker-line-color: #F7563C;
-            marker-line-opacity: 1;
-
-            [zoom >= 7]{
-              marker-width: 10;
-              marker-line-width: 2;
-            }
-
-            [zoom >= 10]{
-              marker-width: 12;
-              marker-line-width: 2;
-            }
-            [zoom >= 12]{
-              marker-width: 16;
-              marker-line-width: 3;
-            }
-          }`,
+          // cartocss: `#layer {
+          //   marker-width: 6;
+          //   marker-fill: #fff;
+          //   marker-fill-opacity: 1;
+          //   marker-allow-overlap: true;
+          //   marker-line-width: 1.25;
+          //   marker-line-color: #F7563C;
+          //   marker-line-opacity: 1;
+          //
+          //   [zoom >= 7]{
+          //     marker-width: 10;
+          //     marker-line-width: 2;
+          //   }
+          //
+          //   [zoom >= 10]{
+          //     marker-width: 12;
+          //     marker-line-width: 2;
+          //   }
+          //   [zoom >= 12]{
+          //     marker-width: 16;
+          //     marker-line-width: 3;
+          //   }
+          // }`,
+          cartocss:require('../../template/settlementsCartoCss.html')(),
           interactivity: 'collection_point'
         },
         {
-          sql:`SELECT row_number() OVER() AS cartodb_id, settlment_name, the_geom_webmercator from(
+          sql:`SELECT row_number() OVER() AS cartodb_id, settlment_name as settlement, (select type from map3_settlements_over_time map3 where points.settlment_name = map3.settlement LIMIT 1) as type, the_geom_webmercator from(
             SELECT settlment_name,
             ST_Transform (
             ST_GeomFromText('POINT(' || long_destination || ' ' || lat_destination || ')',4326)
@@ -125,20 +139,32 @@ module.exports = class MapView extends CommonMapView {
             FROM map2_daily_arrivals WHERE long_origin is not null and lat_origin is not null and long_destination is not null and lat_destination is not null and date_yyyy_mm_dd is not null
             GROUP BY settlment_name,long_origin,lat_origin,long_destination,lat_destination
            ) as points`,
-          cartocss:require('../../template/settlementsCartoCss.html')({transitionIcon:true})
+          cartocss:require('../../template/settlementsCartoCss.html')(),
+          interactivity: 'settlement'
+        },
+        {
+          // sql: `SELECT * FROM map3_settlements_over_time where type!='Refugee transit Centre'`,
+          sql: `SELECT * FROM map3_settlements_over_time where type='Border Point'`,
+          cartocss:require('../../template/settlementsCartoCss.html')(),
+          interactivity: 'settlement'
         }
     ]
-    })
+    },{https:true})
     .addTo(this.map)
     .done((layer)=>{
       layer.setZIndex(4);
-      // this._featureOver(layer.getSubLayer(1));
-      // this._mouseout(layer.getSubLayer(1));
       this._featureOver(layer.getSubLayer(0),require('../template/simplePopup.html'),200);
       this._mouseout(layer.getSubLayer(0));
 
       this._featureOver(layer.getSubLayer(1),require('../template/simplePopup.html'),200);
       this._mouseout(layer.getSubLayer(1));
+
+      this._featureOver(layer.getSubLayer(2),require('../template/simplePopup.html'),200);
+      this._mouseout(layer.getSubLayer(2));
+
+      this._featureOver(layer.getSubLayer(3),require('../template/simplePopup.html'),200);
+      this._mouseout(layer.getSubLayer(3));
+
     });
     return this;
   }
@@ -185,7 +211,7 @@ module.exports = class MapView extends CommonMapView {
           }`
         }
     ]
-    })
+    },{https:true})
     .addTo(this.map)
     .done((layer)=>{
       layer.setZIndex(3);
@@ -200,9 +226,10 @@ module.exports = class MapView extends CommonMapView {
         query: `SELECT * FROM (SELECT row_number() OVER() AS cartodb_id, * FROM daily_arrivals(${this._steps})) as a${new Date().getTime()}`,
         cartocss: require('../template/arrivalsCartoCss.html')({dates:this._distinctDates, duration:this._torqueDuration, steps:this._steps})
       }
-    })
+    },{https:true})
     .addTo(this.map)
     .done((layer)=>{
+      $('.cartodb-timeslider .slider-wrapper').addClass('big');
       this._selectableLayers.push(layer);
       layer.setZIndex(2);
       layer.on('change:time',(obj)=>{
@@ -278,7 +305,7 @@ module.exports = class MapView extends CommonMapView {
                 ST_GeomFromText('LINESTRING(' || long_origin || ' ' || lat_origin || ',' || long_destination || ' ' || lat_destination || ')',4326)
                 ,3857)
                    as the_geom_webmercator
-                FROM map2_daily_arrivals WHERE long_origin is not null and lat_origin is not null and long_destination is not null and lat_destination is not null and date_yyyy_mm_dd is not null
+                FROM map2_daily_arrivals WHERE date_yyyy_mm_dd > ((select max(date_yyyy_mm_dd) from map2_daily_arrivals) - '1 week'::interval) AND long_origin is not null and lat_origin is not null and long_destination is not null and lat_destination is not null and date_yyyy_mm_dd is not null
 
                 group by long_origin,lat_origin,long_destination,lat_destination,settlment_name,collection_point
             ) as lines`,
@@ -371,7 +398,7 @@ module.exports = class MapView extends CommonMapView {
           }`
         }
     ]
-    })
+    },{https:true})
     .addTo(this.map)
     .done((layer)=>{
       this._selectableLayers.push(layer);

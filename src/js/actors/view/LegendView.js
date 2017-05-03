@@ -13,7 +13,7 @@ module.exports = class LegendView extends CommonLegendView {
   }
 
   render(){
-    let sql = new cartodb.SQL({ user: Config.cartoUser });
+    let sql = new cartodb.SQL({ user: Config.cartoUser, protocol:'https' });
     sql.execute('SELECT max(refugee_pop), min(refugee_pop) from map1_host_and_refugees')
     .done((data)=>{
       this.$el.html(this._template({max:data.rows[0].max,min:data.rows[0].min,Utils:Utils}))

@@ -2,10 +2,10 @@
 <p>Actions carried out by the actors</p>
 <div class="filterGroup">
   <%_.each(collection,function(c){%>
-    <div class="filter">
+    <div id="<%=c.id%>" class="filter active <%=c.hide ? 'hide':null%>">
       <div class="barLabel">
         <span class="ellipsis"><%=c.id.replace(/_/g, ' ')%></span>
-        <span><%=c.who.size%></span>
+        <span><%=c.actors.size%></span>
       </div>
       <div class="bars">
         <div class="bar"></div>

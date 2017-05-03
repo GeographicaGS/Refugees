@@ -21,7 +21,7 @@ module.exports = class DataPanelView extends CommonLineChartView {
 
   render() {
     if(this._query){
-      let sql = new cartodb.SQL({ user: Config.cartoUser });
+      let sql = new cartodb.SQL({ user: Config.cartoUser, protocol:'https' });
       sql.execute(this._query)
       .done((data)=>{
         this._draw(data.rows)

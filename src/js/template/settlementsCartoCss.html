@@ -1,6 +1,7 @@
 #layer {
   marker-width: 12;
   marker-fill-opacity: 1;
+  marker-allow-overlap: true;
   <%if(typeof local !== 'undefined' && local){%>
     marker-file: url('/img/camp_32.png');
     [value = 2]{
@@ -8,21 +9,40 @@
     }
   <%}else{%>
     marker-file: url('https://s3.amazonaws.com/com.cartodb.users-assets.production/production/geointelligence/assets/20170425102947camp_32.svg');
-    <%if(typeof transitionIcon !== 'undefined' && transitionIcon){%>
-      [settlment_name = 'Nyakabande TC']{
-        marker-file: url('https://s3.amazonaws.com/com.cartodb.users-assets.production/production/geointelligence/assets/20170425102933transition-center.svg');
-      }
-    <%}%>
+    [type = 'Refugee transit Centre']{
+      marker-file: url('https://s3.amazonaws.com/com.cartodb.users-assets.production/production/geointelligence/assets/20170425102933transition-center.svg');
+    }
+    [type='Refugee transit centre']{
+      marker-file: url('https://s3.amazonaws.com/com.cartodb.users-assets.production/production/geointelligence/assets/20170425102933transition-center.svg');
+    }
+    [type='Reception centre']{
+      marker-file: url('https://s3.amazonaws.com/com.cartodb.users-assets.production/production/geointelligence/assets/20170425102933transition-center.svg');
+    }
+    [type='Collection point']{
+      marker-file: url('https://s3.amazonaws.com/com.cartodb.users-assets.production/production/geointelligence/assets/20170425102933transition-center.svg');
+    }
+    [type='Border Point']{
+      marker-width: 8;
+      marker-file: url('https://s3.amazonaws.com/com.cartodb.users-assets.production/production/geointelligence/assets/20170426114622UGD-border-point.svg');
+    }
   <%}%>
-  marker-allow-overlap: true;
 
   [zoom >= 8]{
-	marker-width: 16;
+	  marker-width: 16;
+    [type='Border Point']{
+      marker-width: 10;
+    }
   }
   [zoom >= 10]{
-	marker-width: 24;
+	  marker-width: 24;
+    [type='Border Point']{
+      marker-width: 16;
+    }
 	}
   [zoom >= 12]{
-	marker-width: 32;
+	  marker-width: 32;
+    [type='Border Point']{
+      marker-width: 21;
+    }
 	}
 }

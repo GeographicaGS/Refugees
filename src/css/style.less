@@ -9,7 +9,9 @@
 @grey_3:#71777B;
 @grey_4:#E4E8EB;
 @grey_5:#D7D7D7;
+@grey_6:#9ca0a3;
 @green: #7ED321;
+@blue:#0072BC;
 
 @green_ramp1: #D1EEEA;
 @green_ramp2: #A8DBD9;
@@ -45,6 +47,15 @@
   }
 }
 
+@keyframes pulse {
+  from { stroke-width: 0; stroke-opacity: 0.8; }
+  to { stroke-width: 25; stroke-opacity: 0; }
+}
+
+.pulse{
+  animation: pulse 1s linear;
+}
+
 body{
   font-family: 'Roboto', sans-serif;
   font-smoothing: antialiased;
@@ -59,6 +70,10 @@ body{
 
   .green{
     color:@green;
+  }
+
+  .grey_2{
+    color:@grey_2;
   }
 
   main{
@@ -97,9 +112,12 @@ body{
         }
       }
       .leaflet-top.leaflet-right{
+        &.middel{
+          top: 50%;
+          transform: translateY(-50%);
+        }
         top: 20px;
-        // top: 50%;
-        // transform: translateY(-50%);
+
         .leaflet-control-zoom{
           box-shadow: none;
           border: 1px solid @grey;
@@ -158,30 +176,39 @@ body{
         box-shadow: none;
         border: none;
         left: @marginHomeLeft !important;
-        bottom: 16px !important;
-        background-color: rgba(255,255,255,.7);
+        // bottom: 16px !important;
+        bottom: 8px !important;
+        background-color: rgba(255,255,255,.9);
         border-radius: 0;
-        height: 48px;
+        // height: 48px;
+        height: 40px;
         display: flex;
         align-items: center;
         ul li{
           border:none;
         }
         .time{
-          position: absolute;
-          right: 10px;
-          top: 12px;
+          // position: absolute;
+          // right: 10px;
+          // top: 12px;
           p{
+            width: auto;
             font-size: 11px;
             color: @black;
             font-family: 'Roboto', sans-serif;
             text-align: right;
-            padding-top: 7px;
+            padding: 0;
+            width: 62px;
+            // padding-top: 7px;
+            // padding-top: 1px;
           }
         }
         .slider-wrapper{
           // width: 349px;
           width: 259px;
+          &.big{
+            width: 284px;
+          }
           .ui-slider-horizontal, .ui-slider-range{
             width: 100%;
           	background-color: @grey;

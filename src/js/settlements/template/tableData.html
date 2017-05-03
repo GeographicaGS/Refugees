@@ -2,25 +2,17 @@
 <table>
   <thead>
     <tr>
-      <td>settlement</td>
-      <td>established date</td>
-      <td>capacity</td>
-      <td>Refugee Population</td>
-      <td>Males</td>
-      <td>Females</td>
-      <td>overcapacity</td>
+      <td>total refugees</td>
+      <td>number of settlements</td>
+      <td>year</td>
     </tr>
   </thead>
   <tbody>
     <%_.each(rows,function(r){%>
       <tr>
-        <td><%=r.settlement%></td>
-        <td><%=r.established_date%></td>
-        <td><%=Utils.formatNumber(r.capacity)%></td>
-        <td><%=Utils.formatNumber(r.refugee_population)%></td>
-        <td><%=Utils.formatNumber(r.males)%></td>
-        <td><%=Utils.formatNumber(r.females)%></td>
-        <td><%=Utils.formatNumber(r.overcapacity)%></td>
+        <td><%=Utils.formatNumber(r.total_refugees)%></td>
+        <td><%=r.number_of_settlements%></td>
+        <td><%=r.year%></td>
       </tr>
     <%})%>
   </tbody>

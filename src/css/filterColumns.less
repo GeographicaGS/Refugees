@@ -48,6 +48,11 @@
       }
       .filter{
         cursor: pointer;
+        opacity: .4;
+        transition: opacity .25s ease;
+        &.active{
+          opacity: 1;
+        }
         +.filter{
           margin-top: 16px;
         }

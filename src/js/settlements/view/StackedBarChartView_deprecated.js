@@ -22,7 +22,7 @@ module.exports = class DataPanelView extends CommonStackedBarChartView {
   }
 
   render() {
-    let sql = new cartodb.SQL({ user: Config.cartoUser });
+    let sql = new cartodb.SQL({ user: Config.cartoUser, protocol:'https' });
     sql.execute('SELECT settlement as name, south_sudan, drc, somalia, rwanda, burundi, south_sudan+drc+somalia+rwanda+burundi as total from map3_settlements_over_time order by total DESC')
     // sql.execute('SELECT settlement as name, male,female, male+female as total from map3_settlements_over_time order by total DESC')
     .done((data)=>{
