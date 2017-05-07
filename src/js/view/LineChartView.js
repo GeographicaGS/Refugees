@@ -2,10 +2,11 @@
 
 var Backbone = require('backbone'),
   d3 = require('d3'),
+  ChartView = require('./ChartView'),
   Utils = require('../utils.js')
 ;
 
-module.exports = class DataPanelView extends Backbone.View {
+module.exports = class DataPanelView extends ChartView {
 
   constructor(options){
     super(options);
@@ -20,17 +21,18 @@ module.exports = class DataPanelView extends Backbone.View {
   _draw(data){
     this.data = data;
     let parent = this.$el.parent();
-    this.$el.html(`<svg width="${parent.width()}" height="${parent.height()}"></svg>`);
+    this.$el.html(`<svg width="${parent.width()}" height="${Math.floor(parent.height())}"></svg>`);
 
 
     let svg = d3.select(this.$('svg')[0]),
-      maxLabel = d3.max(data, function(d) { return d.total; }),
+      maxLabel = d3.max(data, function(d) { return Utils.formatNumber(d.total,2); }),
       maxWidth
     ;
 
     svg.append("text").text(maxLabel).each(function() {maxWidth = Math.ceil(this.getBBox().width) + 10; }).remove()
 
-    let margin = {top: 20, right: (maxWidth+15), bottom: 30, left: maxWidth},
+    // let margin = {top: 20, right: (maxWidth+15), bottom: 30, left: maxWidth},
+    let margin = {top: 20, right: (maxWidth+15), bottom: 30, left: 0},
       minDate,
       maxDate,
       width = Math.floor(parent.width()) - margin.left - margin.right,
@@ -61,16 +63,16 @@ module.exports = class DataPanelView extends Backbone.View {
       .attr("text-anchor", "end")
       ;
 
-    g.append("g")
-      .call(d3.axisLeft(y).ticks(5).tickSize(0))
-      .select(".domain")
-      .remove();
+    // g.append("g")
+    //   .call(d3.axisLeft(y).ticks(5).tickSize(0))
+    //   .select(".domain")
+    //   .remove();
 
-    g.append("g")
-      .attr("class", "grid")
-      .call(d3.axisLeft(y).ticks(5).tickSize(-width+20).tickFormat(''))
-      .select(".domain")
-      .remove();
+    // g.append("g")
+    //   .attr("class", "grid")
+    //   .call(d3.axisLeft(y).ticks(5).tickSize(-width+20).tickFormat(''))
+    //   .select(".domain")
+    //   .remove();
 
     let linePath = g.append("path")
       .datum(data)

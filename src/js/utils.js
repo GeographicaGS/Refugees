@@ -51,7 +51,7 @@ module.exports = {
     // let locale = 'en';
     // return `${date.toLocaleString(locale, {day: '2-digit'})}/${date.toLocaleString(locale, {month: '2-digit' })}/${date.toLocaleString(locale, {year: 'numeric'})}`
     let mDate = moment(date);
-    return `${mDate.format('DD')}/${mDate.format('MM')}/${mDate.format('YYYY')}`
+    return `${mDate.format('MM')}/${mDate.format('DD')}/${mDate.format('YYYY')}`
   }
 
 };

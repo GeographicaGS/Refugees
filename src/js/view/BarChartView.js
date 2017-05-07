@@ -2,19 +2,11 @@
 
 var Backbone = require('backbone'),
   d3 = require('d3'),
+  ChartView = require('./ChartView'),
   Utils = require('../utils.js')
 ;
 
-module.exports = class DataPanelView extends Backbone.View {
-
-  constructor(options){
-    super(options);
-
-    $(window).resize(()=>{
-      if(this.data);
-      this._draw(this.data);
-    });
-  }
+module.exports = class DataPanelView extends ChartView {
 
   _draw(data){
     this.data = data;
@@ -42,11 +34,11 @@ module.exports = class DataPanelView extends Backbone.View {
     x.domain(data.map(function(d) { return d.name; }));
     y.domain([0, d3.max(data, function(d) { return d.total; })]);
 
-    g.append("g")
-      .attr("class", "grid")
-      .call(d3.axisLeft(y).ticks(5).tickSize(-width+20).tickFormat(''))
-      .select(".domain")
-      .remove();
+    // g.append("g")
+    //   .attr("class", "grid")
+    //   .call(d3.axisLeft(y).ticks(5).tickSize(-width+20).tickFormat(''))
+    //   .select(".domain")
+    //   .remove();
 
     g.append("g")
       .attr("transform", "translate(0," + height + ")")

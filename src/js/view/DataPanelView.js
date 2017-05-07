@@ -40,9 +40,11 @@ module.exports = class DataPanelView extends Backbone.View {
     if($(e.currentTarget).index() == 0){
       this._tableDataView.$el.addClass('hide');
       this._chartView.$el.removeClass('hide');
+      this.$('.chartExtraInfo').removeClass('hide');
     }else{
       this._chartView.$el.addClass('hide');
       this._tableDataView.$el.removeClass('hide');
+      this.$('.chartExtraInfo').addClass('hide');
     }
   }
 

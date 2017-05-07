@@ -1,11 +1,18 @@
 "use strict";
 
-var Backbone = require('backbone');
+var Backbone = require('backbone'),
+    Config = require('../config.js');
 
 module.exports = class HomeView extends Backbone.View {
 
   constructor(options){
     super(options);
+
+    //FOR RESPONSIVE
+    $(window).resize(()=>{
+      if($('body').height() <= Config.heightResponsive && !this.$el.hasClass('fullMap'))
+        this._split();
+    });
   }
 
   events(){
@@ -15,7 +22,7 @@ module.exports = class HomeView extends Backbone.View {
   }
 
   className(){
-    return 'home';
+    return `home ${$('body').height() <= Config.heightResponsive ? 'fullMap':null}`;
   }
 
   remove(){
@@ -32,6 +39,13 @@ module.exports = class HomeView extends Backbone.View {
     this.$el.toggleClass('fullMap');
     setTimeout(()=>{
       this._mapView.map.invalidateSize()
+      //FOR RESPONSIVE
+      if(this._dataPanelView && this._dataPanelView._chartView){
+        if(this.$el.hasClass('fullMap'))
+          this._dataPanelView._chartView.$('svg').remove();
+        else
+          this._dataPanelView._chartView.reDraw()
+      }
     }, 300);
   }
 }

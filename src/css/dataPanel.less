@@ -1,6 +1,6 @@
 .dataPanel{
   flex: 1 1 100%;
-  padding: 23px @marginHomeLeft 23px @marginHomeRight;
+  padding: 23px @marginHomeLeft 0 @marginHomeRight;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -8,12 +8,65 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    h4{
-      font-size: 14px;
+    h4,h5{
       font-weight: 700;
       span{
         font-weight: 300;
         text-transform: uppercase;
+      }
+    }
+    .right{
+      margin-right: 30px;
+    }
+    .chartLegend{
+      display: flex;
+      font-size: 13px;
+      >div{
+        display: flex;
+        align-items: center;
+        &+div{
+          margin-left: 26px;
+        }
+        &:before{
+          content: '';
+          display: block;
+          margin-right: 7px;
+        }
+        &.line{
+          &:before{
+            height: 3px;
+            width: 16px;
+            background-color: @blue;
+          }
+        }
+        &.bar{
+          &:before{
+            height: 12px;
+            width: 12px;
+            background-color: @orange;
+          }
+        }
+      }
+    }
+  }
+  h4{
+    font-size: 14px;
+  }
+  h5{
+    font-size: 12px;
+    &.hidden{
+      opacity: 0;
+    }
+    &.currentValue{
+      background-color: @black;
+      color: @white;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      border-radius: 4px;
+      padding: 0 16px;
+      span{
+        margin-left: 3px;
       }
     }
   }
@@ -36,6 +89,18 @@
         }
         &.bold{
           font-weight: 700;
+        }
+        &.orange{
+          fill:@orange;
+        }
+        tspan{
+          fill: @black;
+          &.blue{
+            fill:@blue;
+          }
+          &.orange{
+            fill:@orange;
+          }
         }
       }
       .linePath{
@@ -81,6 +146,9 @@
         fill:@white;
   		  font-size: 12px;
         font-weight: 300;
+        tspan{
+          fill:@white;
+        }
         .first{
           font-weight: 700;
         }

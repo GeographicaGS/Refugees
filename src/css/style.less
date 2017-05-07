@@ -205,7 +205,7 @@ body{
         }
         .slider-wrapper{
           // width: 349px;
-          width: 259px;
+          width: 224px;
           &.big{
             width: 284px;
           }
@@ -234,7 +234,7 @@ body{
         }
       }
       .hide{
-        display: none;
+        display: none !important;
       }
       .ellipsis{
         white-space: nowrap;
@@ -247,6 +247,12 @@ body{
         background-image: url('/img/UGD-camp-icon-info.svg');
         background-size: cover;
       }
+      .flex{
+        display: flex;
+        &.centerVertical{
+          align-items: center;
+        }
+      }
   	}
   }
 }
@@ -257,3 +263,4 @@ body{
 @import "./map.less";
 @import "./loading.less";
 @import "./filterColumns.less";
+@import "./responsive.less";

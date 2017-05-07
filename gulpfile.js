@@ -5,6 +5,8 @@ var browserify = require('browserify'),
   buffer = require('vinyl-buffer'),
   less = require('gulp-less'),
   cleanCSS = require('gulp-clean-css'),
+  postcss = require('gulp-postcss'),
+  autoprefixer = require('autoprefixer'),
   uglify = require('gulp-uglify');
 
 gulp.task('browserify-debug', function() {
@@ -27,20 +29,29 @@ gulp.task('browserify-production', function() {
     .pipe(gulp.dest('./public/js/'));
 });
 
-gulp.task('less', function () {
+gulp.task('less-debug', function () {
   return gulp.src('./src/css/style.less')
   .pipe(less().on('error', function (err) {
     console.log(err);
     this.emit("end");
   }))
+  .pipe(gulp.dest('./public/css/'));
+});
+
+gulp.task('less-production', function () {
+  return gulp.src('./src/css/style.less')
+  .pipe(less().on('error', function (err) {
+    console.log(err);
+    this.emit("end");
+  }))
+  .pipe(postcss([ autoprefixer() ]))
 	.pipe(cleanCSS({compatibility: 'ie8'}))
   .pipe(gulp.dest('./public/css/'));
 });
 
-
 gulp.task('watch', function() {
-  gulp.watch('src/**/*.*', ['browserify-debug', 'less']);
+  gulp.watch('src/**/*.*', ['browserify-debug', 'less-debug']);
   return;
 });
 
-gulp.task('build',['browserify-production', 'less'])
+gulp.task('build',['browserify-production', 'less-production'])

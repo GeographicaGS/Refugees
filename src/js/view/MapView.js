@@ -30,6 +30,13 @@ module.exports = class MapView extends Backbone.View {
       // keepInView:true
       autoPan:false
     });
+
+    $(window).resize(()=>{
+      setTimeout(()=>{
+        this.map.invalidateSize()
+      }, 300);
+    });
+
   }
 
   events(){

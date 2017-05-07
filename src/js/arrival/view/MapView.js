@@ -81,6 +81,9 @@ module.exports = class MapView extends CommonMapView {
             [type='Border Point']{
               marker-file: url('https://s3.amazonaws.com/com.cartodb.users-assets.production/production/geointelligence/assets/20170426152520UGD-border-point_un.svg');
             }
+            [type='Urban Refugee Location']{
+              marker-file: url('https://s3.amazonaws.com/com.cartodb.users-assets.production/production/geointelligence/assets/20170505082414UGD-urban-refugee-location.svg');
+            }
 
             [zoom >= 9]{
               marker-width: 16;
@@ -229,7 +232,6 @@ module.exports = class MapView extends CommonMapView {
     },{https:true})
     .addTo(this.map)
     .done((layer)=>{
-      $('.cartodb-timeslider .slider-wrapper').addClass('big');
       this._selectableLayers.push(layer);
       layer.setZIndex(2);
       layer.on('change:time',(obj)=>{
@@ -237,18 +239,22 @@ module.exports = class MapView extends CommonMapView {
           let date = new Date(obj.time);
           if(!this._currentDate || (date.getFullYear() != this._currentDate.getFullYear() || date.getMonth() != this._currentDate.getMonth() || date.getDate() != this._currentDate.getDate())){
 
-            this.trigger('date:change',{date: date});
-
             this._currentDate = date;
             // let dateText = `${this._currentDate.toLocaleString('en', {weekday: 'short' })} ${this._currentDate.toLocaleString('en', {month: 'short' })} ${this._currentDate.toLocaleString('en', {day: '2-digit'})} ${this._currentDate.toLocaleString('en', {year: 'numeric'})}`
             let dateText = `${moment(this._currentDate).format('ddd')} ${moment(this._currentDate).format('MMM')} ${moment(this._currentDate).format('DD')} ${moment(this._currentDate).format('YYYY')}`;
-            let circle = d3.selectAll('circle[date^="' + dateText + '"]');
+            // let circle = d3.selectAll('circle[date^="' + dateText + '"]');
+            let circle = _.find(d3.selectAll('circle[date]').nodes(),(c)=>{
+              return moment(new Date(d3.select(c).attr('date'))).format('DD/MM/YYYY') == moment(new Date(dateText)).format('DD/MM/YYYY');
+            });
+            // this.trigger('date:change',{date: date, value:(circle ? parseFloat(circle.attr('value')):null)});
+            this.trigger('date:change',{date: date, value:(circle ? parseFloat(d3.select(circle).attr('value')):null)});
             if(d3.selectAll('.guideTime').node())
               d3.selectAll('.guideTime')
                 .transition()
                 .duration(Math.floor((this._torqueDuration/this._distinctDates)*1000))
                 .ease(d3.easeLinear)
-                .attr('transform', 'translate(' + (circle.node() ? circle.attr('cx'):0) +')');
+                // .attr('transform', 'translate(' + (circle.node() ? circle.attr('cx'):0) +')');
+                .attr('transform', 'translate(' + (circle ? d3.select(circle).attr('cx'):0) +')');
 
           }
         }

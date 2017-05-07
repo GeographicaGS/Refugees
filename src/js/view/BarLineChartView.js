@@ -2,10 +2,11 @@
 
 var Backbone = require('backbone'),
   d3 = require('d3'),
+  ChartView = require('./ChartView'),
   Utils = require('../utils.js')
 ;
 
-module.exports = class BarLineChartView extends Backbone.View {
+module.exports = class BarLineChartView extends ChartView {
 
   constructor(options){
     super(options);
@@ -31,7 +32,8 @@ module.exports = class BarLineChartView extends Backbone.View {
     svg.append("text").text(maxLabel).each(function() {maxWidth = Math.ceil(this.getBBox().width) + 10; }).remove()
 
     // let margin = {top: 20, right: (maxWidth + 15), bottom: 30, left: maxWidth},
-    let margin = {top: 20, right: (maxWidth + 15), bottom: 30, left: 0},
+    // let margin = {top: 20, right: (maxWidth + 15), bottom: 30, left: 0},
+    let margin = {top: 30, right: 0, bottom: 30, left: 0},
       minDate,
       maxDate,
       width = Math.floor(parent.width()) - margin.left - margin.right,
@@ -81,27 +83,27 @@ module.exports = class BarLineChartView extends Backbone.View {
     //   .select(".domain")
     //   .remove();
 
-    g.append("text")
-      .attr("transform", "rotate(-90)")
-      .attr("y", 0 - margin.left - 20)
-      .attr("x",0 - (height / 2))
-      .attr("dy", "1em")
-      .style("text-anchor", "middle")
-      .text("Refugees (columns)");
+    // g.append("text")
+    //   .attr("transform", "rotate(-90)")
+    //   .attr("y", 0 - margin.left - 20)
+    //   .attr("x",0 - (height / 2))
+    //   .attr("dy", "1em")
+    //   .style("text-anchor", "middle")
+    //   .text("Refugees (columns)");
 
-    g.append("text")
-      .attr("transform", "rotate(-90)")
-      .attr("y", width + 25)
-      .attr("x",0 - (height / 2))
-      .attr("dy", "1em")
-      .style("text-anchor", "middle")
-      .text("Settlements (line)");
+    // g.append("text")
+    //   .attr("transform", "rotate(-90)")
+    //   .attr("y", width + 25)
+    //   .attr("x",0 - (height / 2))
+    //   .attr("dy", "1em")
+    //   .style("text-anchor", "middle")
+    //   .text("Settlements (line)");
 
-    g.append("g")
-      .attr("transform", "translate( " + width + ", 0 )")
-      .call(d3.axisRight(yline).ticks(5).tickSize(0))
-      .select(".domain")
-      .remove();
+    // g.append("g")
+    //   .attr("transform", "translate( " + width + ", 0 )")
+    //   .call(d3.axisRight(yline).ticks(5).tickSize(0))
+    //   .select(".domain")
+    //   .remove();
 
     // g.append("g")
     //   .attr("class", "grid")
@@ -142,14 +144,25 @@ module.exports = class BarLineChartView extends Backbone.View {
         .attr("x", function(d) { return xbar(d.date) + xbar.bandwidth()/2 })
         .attr("y", height)
         .attr("text-anchor", "middle")
+        .attr("class", "textbar orange")
         .style('opacity',0)
         .text(function(d){return Utils.formatNumber(d.totalbar);})
-        .transition()
-  			.duration(250)
-  			.delay(function (d, i) {return i * 50;})
-        .attr("y", function(d) { return ybar(d.totalbar) - 5; })
-        .style('opacity',1)
+        // .append('tspan').text(function(d){return ' - ' +  Utils.formatNumber(d.totalline);})
+        // .attr("class", "blue")
     ;
+
+    g.selectAll(".textbar").append('tspan').text(' - ');
+
+    g.selectAll(".textbar")
+      .append('tspan').text(function(d){return Utils.formatNumber(d.totalline);})
+      .attr("class", "blue");
+
+    g.selectAll(".textbar")
+      .transition()
+      .duration(250)
+      .delay(function (d, i) {return i * 50;})
+      .attr("y", function(d) { return ybar(d.totalbar) - 5; })
+      .style('opacity',1)
 
     let totalLength = linePath.node().getTotalLength();
     linePath

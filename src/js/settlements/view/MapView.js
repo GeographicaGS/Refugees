@@ -123,6 +123,9 @@ module.exports = class MapView extends CommonMapView {
             [type='Collection point']{
               marker-file: url('https://s3.amazonaws.com/com.cartodb.users-assets.production/production/geointelligence/assets/20170425102933transition-center.svg');
             }
+            [type='Urban Refugee Location']{
+              marker-file: url('https://s3.amazonaws.com/com.cartodb.users-assets.production/production/geointelligence/assets/20170505082414UGD-urban-refugee-location.svg');
+            }
             [type='Border Point']{
               marker-width: 8;
               marker-file: url('https://s3.amazonaws.com/com.cartodb.users-assets.production/production/geointelligence/assets/20170426114622UGD-border-point.svg');
@@ -289,13 +292,6 @@ module.exports = class MapView extends CommonMapView {
           pointsAdded = [];
         }
       });
-
-      // this.map.on('mousemove', function(e) {
-      //   var p = e.containerPoint
-      //   var value = layer.getValueForPos(p.x, p.y);
-      //   console.log(value);
-      // });
-
 
       layer.on('change:time',(obj)=>{
         let points =layer.getActivePointsBBox(obj.step);

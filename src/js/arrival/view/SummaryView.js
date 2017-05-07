@@ -11,7 +11,7 @@ module.exports = class SummaryView extends CommonSummaryView {
 
   className(){
     // return 'summary width400';
-    return 'summary width400';
+    return 'summary width340';
   }
 
   constructor(options){
@@ -74,29 +74,35 @@ module.exports = class SummaryView extends CommonSummaryView {
       this.$('.data .southSudan').text('-');
       this.$('.data .others').text('-');
 
+      this.$('.data .drcDate').text('');
+      this.$('.data .burundiDate').text('');
+      this.$('.data .somaliaDate').text('');
+      this.$('.data .southSudanDate').text('');
+      this.$('.data .othersDate').text('');
+
       data = (this._data['DRC'][`${date.getFullYear()}-${("0" + (date.getMonth() + 1)).slice(-2)}`])/2;
       this.$('.data .drc').text(Utils.formatNumber(data));
-      if(data)
+      if(data && data != 0)
         this.$('.data .drcDate').text(Utils.formatDateShortNotDay(date));
 
       data = (this._data['Burundi'][`${date.getFullYear()}-${("0" + (date.getMonth() + 1)).slice(-2)}`])/2;
       this.$('.data .burundi').text(Utils.formatNumber(data));
-      if(data)
+      if(data && data != 0)
         this.$('.data .burundiDate').text(Utils.formatDateShortNotDay(date));
 
       data = this._data['Somalia'][`${date.getFullYear()}-${("0" + (date.getMonth() + 1)).slice(-2)}`];
       this.$('.data .somalia').text(Utils.formatNumber(data));
-      if(data)
+      if(data && data != 0)
         this.$('.data .somaliaDate').text(Utils.formatDateShortNotDay(date));
 
       data = this._data['South Sudan'][`${moment(date).isoWeek()}`];
       this.$('.data .southSudan').text(Utils.formatNumber(data));
-      if(data)
+      if(data && data != 0)
         this.$('.data .southSudanDate').text(`${Utils.formatDateShortNotYear(moment().day("Monday").isoWeeks(moment(date).isoWeek()).toDate())} - ${Utils.formatDateShortNotYear(moment().day("Sunday").isoWeeks(moment(date).isoWeek()).toDate())}`);
 
       data = this._data['Others'][`${date.getFullYear()}-${("0" + (date.getMonth() + 1)).slice(-2)}`];
       this.$('.data .others').text(Utils.formatNumber(data));
-      if(data)
+      if(data && data != 0)
         this.$('.data .othersDate').text(Utils.formatDateShortNotDay(date));
     }
   }

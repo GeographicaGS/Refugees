@@ -34,7 +34,7 @@ module.exports = class HomeView extends CommonHomeView {
     this._summaryView = new SummaryView({model:this.contextModel,mapView:this._mapView});
     // this.$el.append(this._summaryView.render().$el);
     this.$el.append(this._summaryView.$el);
-    this._dataPanelView = new DataPanelView({model:this.contextModel});
+    this._dataPanelView = new DataPanelView({model:this.contextModel,mapView:this._mapView});
     this.$('#dataPanel').append(this._dataPanelView.render().$el);
     return this;
   }
@@ -46,9 +46,15 @@ module.exports = class HomeView extends CommonHomeView {
     if($(e.currentTarget).index() == 0){
       this._getDateRange('SELECT min(date_yyyy_mm_dd) as start, max(date_yyyy_mm_dd) as finish  FROM map2_daily_arrivals');
       this._mapView.renderTorque();
+      if(!this.$('.tableData').is(':visible')){
+        this.$('.chartExtraInfo').removeClass('hidden');
+        this.$('.chartExtraInfo').text('Loading');
+      }
     }else if($(e.currentTarget).index() == 1){
       this._getDateRange(`SELECT min(date_yyyy_mm_dd) as start, max(date_yyyy_mm_dd) as finish FROM map2_daily_arrivals where date_yyyy_mm_dd > ((select max(date_yyyy_mm_dd) from map2_daily_arrivals) - '1 week'::interval)`)
       this._mapView.renderLastWeek();
+      this.$('.dataPanel .header .currentValue').text('')
+      this.$('.chartExtraInfo').addClass('hidden');
     }
   }
 
@@ -68,9 +74,9 @@ module.exports = class HomeView extends CommonHomeView {
   _loadDateTitles(data){
     this.$('.title .date').text(`${Utils.formatDateShort(new Date(data.start))} >> ${Utils.formatDateShort(new Date(data.finish))}`);
     if((new Date(data.finish) - new Date(data.start))/((24 * 60 * 60 * 1000)) <= 6){
-      this.$('.dataPanel .header h4 span').text('last week times');
+      this.$('.dataPanel .header >h4 span').text('last week times');
     }else{
-      this.$('.dataPanel .header h4 span').text(`${Utils.formatDateShortNotDay(new Date(data.start))} - ${Utils.formatDateShortNotDay(new Date(data.finish))}`);
+      this.$('.dataPanel .header >h4 span').text(`${Utils.formatDateShortNotDay(new Date(data.start))} - ${Utils.formatDateShortNotDay(new Date(data.finish))}`);
     }
   }
 
