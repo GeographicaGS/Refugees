@@ -8,16 +8,6 @@ var Backbone = require('backbone'),
 
 module.exports = class DataPanelView extends ChartView {
 
-  constructor(options){
-    super(options);
-
-    $(window).resize(()=>{
-      if(this.data);
-      this._draw(this.data);
-    });
-
-  }
-
   _draw(data){
     this.data = data;
     let parent = this.$el.parent();

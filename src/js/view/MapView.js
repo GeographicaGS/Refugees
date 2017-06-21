@@ -74,6 +74,8 @@ module.exports = class MapView extends Backbone.View {
 
     new L.Control.Zoom({ position: 'topright' }).addTo(this.map);
 
+    this.$el.append(`<a class="geckoLink" href="http://www.geogecko.com/" target="_blank">Made by Geo Gecko</a>`);
+
     return this;
   }
 

@@ -21,7 +21,7 @@ module.exports = class MapView extends CommonMapView {
 
   render() {
     super.render();
-    this.$('.leaflet-control-zoom').closest('.leaflet-top.leaflet-right').addClass('middel')
+    // this.$('.leaflet-control-zoom').closest('.leaflet-top.leaflet-right').addClass('middel')
     this.$el.append(this._legendView.render().$el);
 
     let sql = new cartodb.SQL({ user: Config.cartoUser, protocol:'https' });

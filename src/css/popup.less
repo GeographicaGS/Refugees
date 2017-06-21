@@ -1,0 +1,98 @@
+.popup{
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000000;
+	background-color: rgba(250,250,251,0.4);
+  >div{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+  }
+  .actors{
+    background-color: #FFFFFF;
+    box-shadow: 0 3px 5px 0 rgba(0,0,0,0.3);
+    padding: 16px;
+    min-width: 622px;
+    >h3{
+      text-transform: uppercase;
+    	font-size: 14px;
+      font-weight: 700;
+      line-height: 16px;
+    }
+    >p{
+      font-size: 12px;
+      line-height: 14px;
+      margin-top: 2px;
+    }
+    .actorsTools,.actorsGroup{
+      border: 1px solid @grey_4;
+    }
+    .actorsTools{
+      margin-top: 10px;
+      padding: 0 10px;
+      width: 100%;
+      height: 30px;
+      >a{
+        line-height: 30px;
+      }
+      .all{
+        font-size: 11px;
+        text-transform: uppercase;
+        color: @orange;
+      }
+      .clear{
+        font-size: 12px;
+        float: right;
+      }
+    }
+    .actorsGroup{
+      position: relative;
+      bottom: 2px;
+      padding: 5px 10px;
+      display: table;
+      table-layout: fixed;
+      width: 100%;
+      transition: border-color .25s ease;
+      &.error{
+        border-color: @orange;
+      }
+      >div{
+        display: table-cell;
+        .actor{
+          font-size: 12px;
+          height: 24px;
+          cursor: pointer;
+          transition: background-color ease .25s, color ease .25s;
+          padding: 0 10px;
+          margin-right: 5px;
+          &.active{
+            background-color: @orange;
+            color:@white;
+          }
+        }
+      }
+    }
+    input[type="button"]{
+      text-transform: uppercase;
+      background-color: transparent;
+      border-radius: 2px;
+      font-size: 14px;
+      margin-top: 16px;
+      padding: 7px 23px;
+      outline: none;
+    }
+    .cancel{
+      border: 1px solid @grey_2;
+      color:@grey_2;
+    }
+    .accept{
+      color:@orange;
+      border: 1px solid @orange;
+      float: right;
+    }
+  }
+}

@@ -1,8 +1,10 @@
 @import "./reset.less";
 
 @black:#52595E;
+@black2: #1A1E29;
 @white:#fff;
 @white_2:#FAFAFB;
+@white3: #9397A2;
 @orange:#F7563C;
 @grey:#C3CDD4;
 @grey_2:#71777B;
@@ -12,6 +14,7 @@
 @grey_6:#9ca0a3;
 @green: #7ED321;
 @blue:#0072BC;
+@grenGeo:#15B750;
 
 @green_ramp1: #D1EEEA;
 @green_ramp2: #A8DBD9;
@@ -253,8 +256,52 @@ body{
           align-items: center;
         }
       }
+      .clear{
+        &:before{
+          content: url('/img/UGD-clear.svg');
+          position: relative;
+          top: 4px;
+        }
+      }
   	}
   }
+
+  // .geologo{
+  //   position: absolute;
+  //   bottom: 0;
+  //   right: 0;
+  //   width: 24px;
+  //   height: 24px;
+  //   border-radius: 2px 0 0 0;
+  //   background-color: @grenGeo;
+  //   z-index: 999;
+  //   &:hover{
+  //     .big{
+  //       width: 52px;
+  //       height: 68px;
+  //       opacity: 1;
+  //       transform: translateY(0);
+  //     }
+  //     .small{
+  //       opacity: 0;
+  //       transform: translateY(5px);
+  //     }
+  //   }
+  //   .big,.small{
+  //     transition: opacity .25s ease, transform .25s ease;
+  //   }
+  //   .big{
+  //     position: absolute;
+  //     width: 0;
+  //     height: 0;
+  //     background-color: @white;
+  //     top: -63px;
+  //     right: 19px;
+  //     opacity: 0;
+  //     transform: translateY(5px);
+  //     box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.15);
+  //   }
+  // }
 }
 
 @import "./home.less";
@@ -263,4 +310,5 @@ body{
 @import "./map.less";
 @import "./loading.less";
 @import "./filterColumns.less";
+// @import "./popup.less";
 @import "./responsive.less";

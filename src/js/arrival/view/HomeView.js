@@ -48,7 +48,7 @@ module.exports = class HomeView extends CommonHomeView {
       this._mapView.renderTorque();
       if(!this.$('.tableData').is(':visible')){
         this.$('.chartExtraInfo').removeClass('hidden');
-        this.$('.chartExtraInfo').text('Loading');
+        this.$('.chartExtraInfo.currentValue').text('Loading');
       }
     }else if($(e.currentTarget).index() == 1){
       this._getDateRange(`SELECT min(date_yyyy_mm_dd) as start, max(date_yyyy_mm_dd) as finish FROM map2_daily_arrivals where date_yyyy_mm_dd > ((select max(date_yyyy_mm_dd) from map2_daily_arrivals) - '1 week'::interval)`)

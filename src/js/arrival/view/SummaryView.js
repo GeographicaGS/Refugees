@@ -21,19 +21,20 @@ module.exports = class SummaryView extends CommonSummaryView {
       if(this._isWeek()){
         this._query = `SELECT source, sum(count) as total
           FROM map2_daily_arrivals
-          where count is not null AND collection_point is not null AND date_yyyy_mm_dd >= '${this.model.get('range').start.toISOString()}'::timestamp AND date_yyyy_mm_dd <= '${this.model.get('range').finish.toISOString()}'::timestamp
-          group by source order by total DESC`
-          // options.mapView.on('date:change',(obj) => {
-          //   options.mapView.off('date:change');
-          // });
+          where no_count is null AND count is not null AND collection_point is not null AND date_yyyy_mm_dd >= '${this.model.get('range').start.toISOString()}'::timestamp AND date_yyyy_mm_dd <= '${this.model.get('range').finish.toISOString()}'::timestamp
+          group by source order by total DESC`;
       }else{
-        this._query = `SELECT source, count as total, date_yyyy_mm_dd
+        // this._query = `SELECT source, count as total, date_yyyy_mm_dd
+        //   FROM map2_daily_arrivals
+        //   where no_count is null AND count is not null AND collection_point is not null AND date_yyyy_mm_dd >= '${this.model.get('range').start.toISOString()}'::timestamp AND date_yyyy_mm_dd <= '${this.model.get('range').finish.toISOString()}'::timestamp
+        //   order by source,date_yyyy_mm_dd`;
+        //   options.mapView.on('date:change',(obj) => {
+        //     this._update(obj.date);
+        //   });
+        this._query = `SELECT source, sum(count) as total
           FROM map2_daily_arrivals
-          where count is not null AND collection_point is not null AND date_yyyy_mm_dd >= '${this.model.get('range').start.toISOString()}'::timestamp AND date_yyyy_mm_dd <= '${this.model.get('range').finish.toISOString()}'::timestamp
-          order by source,date_yyyy_mm_dd`
-          options.mapView.on('date:change',(obj) => {
-            this._update(obj.date);
-          });
+          where no_count is null AND count is not null AND collection_point is not null AND date_yyyy_mm_dd >= '${this.model.get('range').start.toISOString()}'::timestamp AND date_yyyy_mm_dd <= '${this.model.get('range').finish.toISOString()}'::timestamp
+          group by source order by total DESC`;
       }
 
       this.render();
@@ -41,27 +42,29 @@ module.exports = class SummaryView extends CommonSummaryView {
   }
 
   render(){
-    if(this._isWeek()){
+    // if(this._isWeek()){
+    //   this._template = require('../template/summaryWeek.html');
+    //   super.render();
+    // }else{
+    //   this._template = require('../template/summary.html');
+    //   let sql = new cartodb.SQL({ user: Config.cartoUser, protocol:'https' });
+    //   sql.execute(this._query)
+    //   .done((data)=>{
+    //     let total = _.reduce(data.rows, function(memo, obj){ return memo + obj.total; }, 0);
+    //     this._data = _.groupBy(data.rows, function(d){ return d.source;});
+    //     this._data['DRC'] = this._groupByMonth(this._data['DRC']);
+    //     this._data['Burundi'] = this._groupByMonth(this._data['Burundi']);
+    //     this._data['Somalia'] = this._groupByMonth(this._data['Somalia']);
+    //     this._data['Others'] = this._groupByMonth(this._data['Others']);
+    //     this._data['South Sudan'] = this._groupByWeek(this._data['South Sudan'],7);
+    //     this.$el.html(this._template({total:total, Utils:Utils}));
+    //   })
+    //   .error((errors)=>{
+    //     console.log("errors:" + errors);
+    //   })
+    // }
       this._template = require('../template/summaryWeek.html');
       super.render();
-    }else{
-      this._template = require('../template/summary.html');
-      let sql = new cartodb.SQL({ user: Config.cartoUser, protocol:'https' });
-      sql.execute(this._query)
-      .done((data)=>{
-        let total = _.reduce(data.rows, function(memo, obj){ return memo + obj.total; }, 0);
-        this._data = _.groupBy(data.rows, function(d){ return d.source;});
-        this._data['DRC'] = this._groupByMonth(this._data['DRC']);
-        this._data['Burundi'] = this._groupByMonth(this._data['Burundi']);
-        this._data['Somalia'] = this._groupByMonth(this._data['Somalia']);
-        this._data['Others'] = this._groupByMonth(this._data['Others']);
-        this._data['South Sudan'] = this._groupByWeek(this._data['South Sudan'],7);
-        this.$el.html(this._template({total:total, Utils:Utils}));
-      })
-      .error((errors)=>{
-        console.log("errors:" + errors);
-      })
-    }
   }
 
   _update(date){
@@ -80,12 +83,12 @@ module.exports = class SummaryView extends CommonSummaryView {
       this.$('.data .southSudanDate').text('');
       this.$('.data .othersDate').text('');
 
-      data = (this._data['DRC'][`${date.getFullYear()}-${("0" + (date.getMonth() + 1)).slice(-2)}`])/2;
+      data = (this._data['DRC'][`${date.getFullYear()}-${("0" + (date.getMonth() + 1)).slice(-2)}`]);
       this.$('.data .drc').text(Utils.formatNumber(data));
       if(data && data != 0)
         this.$('.data .drcDate').text(Utils.formatDateShortNotDay(date));
 
-      data = (this._data['Burundi'][`${date.getFullYear()}-${("0" + (date.getMonth() + 1)).slice(-2)}`])/2;
+      data = (this._data['Burundi'][`${date.getFullYear()}-${("0" + (date.getMonth() + 1)).slice(-2)}`]);
       this.$('.data .burundi').text(Utils.formatNumber(data));
       if(data && data != 0)
         this.$('.data .burundiDate').text(Utils.formatDateShortNotDay(date));

@@ -1,18 +1,28 @@
-<a class="donwloadCsv" href="<%=csv%>">Download CSV</a>
-<table>
+<table style="table-layout: fixed;">
   <thead>
     <tr>
-      <td>district</td>
-      <td>country</td>
-      <td>refugees</td>
+      <td>ACTORS</td>
+      <td>SECTORS</td>
+      <td>SETTLEMENTS</td>
+      <td>DISTRICTS</td>
     </tr>
   </thead>
   <tbody>
-    <%_.each(rows,function(r){%>
+    <%_.each(data,function(d){%>
       <tr>
-        <td><%=r.district%></td>
-        <td><%=r.country%></td>
-        <td><%=Utils.formatNumber(r.refugees)%></td>
+        <td class="ellipsis" title="<%=d.actor%>"><%=d.actor%></td>
+        <td>
+          <%=Utils.formatNumber(d.sectors.length)%>
+          <div class="popupTd"><%=d.sectors.toString().replace(/,/g , ", ")%></div>
+        </td>
+        <td>
+          <%=Utils.formatNumber(d.settlements.length)%>
+          <div class="popupTd"><%=d.settlements.toString().replace(/,/g , ", ")%></div>
+        </td>
+        <td>
+          <%=Utils.formatNumber(d.districts.length)%>
+          <div class="popupTd"><%=d.districts.toString().replace(/,/g , ", ")%></div>
+        </td>
       </tr>
     <%})%>
   </tbody>

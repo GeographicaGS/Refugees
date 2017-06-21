@@ -21,7 +21,7 @@ module.exports = class TableDataView extends CommonTableDataView {
       let sql = new cartodb.SQL({ user: Config.cartoUser, protocol:'https' });
       sql.execute(this._query)
       .done((data)=>{
-        this.$el.html(this._template({rows:data.rows, Utils:Utils, csv:`http://${Config.cartoUser}.cartodb.com/api/v2/sql?format=csv&q=${this._query}`}));
+        this.$el.html(this._template({rows:data.rows, Utils:Utils, csv:`https://${Config.cartoUser}.cartodb.com/api/v2/sql?format=csv&q=${this._query}`}));
       })
       .error((errors)=>{
         console.log("errors:" + errors);

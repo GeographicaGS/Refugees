@@ -1,0 +1,34 @@
+<%
+  var sum = [];
+  _.each(rows,function(r){
+    sum = sum.concat(r.actors);
+  })
+  sum = new Set(sum);
+%>
+<div class="head">
+  <h3>Number of NGO, Government <br> and UN Agencies</h3>
+  <h4><%=Utils.formatNumber(sum.size)%></h4>
+</div>
+<div class="data">
+  <div class="row">
+    <div class="cell">
+      <h5><%=rows[0].settlement%></h5>
+      <span><%=Utils.formatNumber(rows[0].count)%></span>
+    </div>
+    <div class="cell">
+      <h5><%=rows[1].settlement%></h5>
+      <span><%=Utils.formatNumber(rows[1].count)%></span>
+    </div>
+  </div>
+  <div class="row">
+    <div class="cell">
+      <h5><%=rows[2].settlement%></h5>
+      <span><%=Utils.formatNumber(rows[2].count)%></span>
+    </div>
+    <div class="cell">
+      <h5><%=rows[3].settlement%></h5>
+      <span><%=Utils.formatNumber(rows[3].count)%></span>
+    </div>
+  </div>
+
+</div>

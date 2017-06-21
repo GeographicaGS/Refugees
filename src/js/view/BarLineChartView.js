@@ -8,16 +8,6 @@ var Backbone = require('backbone'),
 
 module.exports = class BarLineChartView extends ChartView {
 
-  constructor(options){
-    super(options);
-
-    $(window).resize(()=>{
-      if(this.data);
-      this._draw(this.data);
-    });
-
-  }
-
   _draw(data){
     this.data = data;
     let parent = this.$el.parent();
@@ -147,22 +137,27 @@ module.exports = class BarLineChartView extends ChartView {
         .attr("class", "textbar orange")
         .style('opacity',0)
         .text(function(d){return Utils.formatNumber(d.totalbar);})
+        .transition()
+        .duration(250)
+        .delay(function (d, i) {return i * 50;})
+        .attr("y", function(d) { return ybar(d.totalbar) - 5; })
+        .style('opacity',1)
         // .append('tspan').text(function(d){return ' - ' +  Utils.formatNumber(d.totalline);})
         // .attr("class", "blue")
     ;
 
-    g.selectAll(".textbar").append('tspan').text(' - ');
+    // g.selectAll(".textbar").append('tspan').text(' - ');
 
-    g.selectAll(".textbar")
-      .append('tspan').text(function(d){return Utils.formatNumber(d.totalline);})
-      .attr("class", "blue");
+    // g.selectAll(".textbar")
+    //   .append('tspan').text(function(d){return Utils.formatNumber(d.totalline);})
+    //   .attr("class", "blue");
 
-    g.selectAll(".textbar")
-      .transition()
-      .duration(250)
-      .delay(function (d, i) {return i * 50;})
-      .attr("y", function(d) { return ybar(d.totalbar) - 5; })
-      .style('opacity',1)
+    // g.selectAll(".textbar")
+    //   .transition()
+    //   .duration(250)
+    //   .delay(function (d, i) {return i * 50;})
+    //   .attr("y", function(d) { return ybar(d.totalbar) - 5; })
+    //   .style('opacity',1)
 
     let totalLength = linePath.node().getTotalLength();
     linePath

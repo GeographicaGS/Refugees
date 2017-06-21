@@ -1,7 +1,8 @@
 "use strict";
 
 var $ = require('jquery'),
-  Backbone = require('backbone');
+  Backbone = require('backbone'),
+  babelPolyfill = require("babel-polyfill");
 
 Backbone.$ = $;
 

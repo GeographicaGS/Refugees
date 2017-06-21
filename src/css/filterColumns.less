@@ -1,9 +1,22 @@
 .filterColumns{
   display: flex;
   padding: 32px;
-  flex: 1 1 100%;
-  >div{
-    flex: 1 1 100%;
+  // flex: 1 1 100%;
+  flex:  1 1 0px;
+  overflow-y: auto;
+
+  .clearFilters{
+    position: absolute;
+    z-index: 1;
+    right: 32px;
+    top: 16px;
+    font-size: 12px;
+  }
+
+  >div:not(.popup){
+    // flex: 1 1 100%;
+    flex: 1 1 0px;
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
     position: relative;
@@ -30,6 +43,11 @@
       text-transform: uppercase;
       line-height: 16px;
     }
+    .selectActors{
+      font-size: 12px;
+      text-transform: uppercase;
+      color:@orange;
+    }
     >p{
       font-size: 12px;
       line-height: 14px;
@@ -38,7 +56,23 @@
       margin-top: 17px;
     	border: 1px solid @grey_4;
       padding: 8px;
+      flex: 1 1 0;
       overflow-y: auto;
+      &.actors{
+        border: none;
+        padding-left: 0;
+        >p{
+          font-size: 12px;
+          font-weight: 300;
+          color: @black;
+          margin-bottom: 10px;
+        }
+        >span{
+          font-size: 12px;
+          line-height: 16px;
+          display: block; 
+        }
+      }
       &:after{
         content: '';
         display: block;

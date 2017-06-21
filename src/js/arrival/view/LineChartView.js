@@ -13,7 +13,7 @@ module.exports = class DataPanelView extends CommonLineChartView {
     this.listenTo(this.model,'change:range',()=>{
       this._query = `SELECT date_yyyy_mm_dd as date, sum(count) as total
         FROM map2_daily_arrivals
-        where date_yyyy_mm_dd is not null and count is not null  AND date_yyyy_mm_dd >= '${this.model.get('range').start.toISOString()}'::timestamp AND date_yyyy_mm_dd <= '${this.model.get('range').finish.toISOString()}'::timestamp
+        where no_count is null AND date_yyyy_mm_dd is not null and count is not null  AND date_yyyy_mm_dd >= '${this.model.get('range').start.toISOString()}'::timestamp AND date_yyyy_mm_dd <= '${this.model.get('range').finish.toISOString()}'::timestamp
         group by date_yyyy_mm_dd order by date`
       this.render();
     });

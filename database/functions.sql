@@ -17,6 +17,9 @@ CREATE OR REPLACE FUNCTION daily_arrivals(steps int) RETURNS setof dailyArrivalT
               LOOP
                result.the_geom_webmercator := ST_Line_Interpolate_Point(r.geom,fraction);
                result.count := (r.count * 255.0)/maxValue;
+               IF r.count!=0 AND result.count=0 THEN
+                result.count = 1;
+               END IF;
                result.dateArrival := row;
                RETURN next result;
                fraction := fraction + fractionStep;

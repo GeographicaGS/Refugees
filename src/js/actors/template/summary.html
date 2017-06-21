@@ -1,0 +1,75 @@
+<div class="head">
+  <p>Filters</p>
+  <a class="clear clearAll" href="#">Clear</a>
+</div>
+<div class="data">
+  <div class="filterBlock">
+    <h3>
+      SELECT ACTORS
+      <div class="popupFilter">
+        <div class="headerPopup">
+          <a class="selectAll" href="#">SELECT ALL</a>
+          <a class="clear" href="#">Clear</a>
+        </div>
+        <ul class="contentPopup">
+          <%_.each(actors,function(a){%>
+            <%if(a.show){%>
+              <li elem="<%=a.id%>" class="<%=a.active ? 'active':null%>"><%=a.title%></li>
+            <%}%>
+          <%})%>
+        </ul>
+        <div class="footerPopup">
+          <a class="cancel" href="#">CANCELAR</a>
+          <a class="accept" collection="actors" href="#">ACEPTAR</a>
+        </div>
+      </div>
+    </h3>
+    <h4><%=_.where(actors,{active:true, show:true}).length%><span>/<%=actors.length%></span></h4>
+  </div>
+  <div class="filterBlock">
+    <h3>
+      SELECT SECTORS
+      <div class="popupFilter">
+        <div class="headerPopup">
+          <a class="selectAll" href="#">SELECT ALL</a>
+          <a class="clear" href="#">Clear</a>
+        </div>
+        <ul class="contentPopup">
+          <%_.each(sectors,function(s){%>
+            <%if(s.show){%>
+                <li elem="<%=s.id%>" class="<%=s.active ? 'active':null%>"><%=s.title%></li>
+            <%}%>
+          <%})%>
+        </ul>
+        <div class="footerPopup">
+          <a class="cancel" href="#">CANCELAR</a>
+          <a class="accept" collection="sectors" href="#">ACEPTAR</a>
+        </div>
+      </div>
+    </h3>
+    <h4><%=_.where(sectors,{active:true, show:true}).length%><span>/<%=sectors.length%></span></h4>
+  </div>
+  <div class="filterBlock">
+    <h3>
+      SELECT LOCATIONS
+      <div class="popupFilter">
+        <div class="headerPopup">
+          <a class="selectAll" href="#">SELECT ALL</a>
+          <a class="clear" href="#">Clear</a>
+        </div>
+        <ul class="contentPopup">
+          <%_.each(settlements,function(s){%>
+            <%if(s.show){%>
+                <li elem="<%=s.id%>" class="<%=s.active ? 'active':null%>"><%=s.title%></li>
+            <%}%>
+          <%})%>
+        </ul>
+        <div class="footerPopup">
+          <a class="cancel" href="#">CANCELAR</a>
+          <a class="accept" collection="settlements" href="#">ACEPTAR</a>
+        </div>
+      </div>
+    </h3>
+    <h4><%=_.where(settlements,{active:true, show:true}).length%><span>/<%=settlements.length%></span></h4>
+  </div>
+</div>
