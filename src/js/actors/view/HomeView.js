@@ -6,7 +6,6 @@ var Backbone = require('backbone'),
   Utils = require('../../utils.js'),
   MapView = require('./MapView'),
   SummaryView = require('./SummaryView'),
-  // FilterPanelView = require('./FilterPanelView'),
   DataPanelView = require('./DataPanelView'),
   template = require('../template/home.html')
   ;
